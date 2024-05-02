@@ -8,7 +8,7 @@ function random_template_theme_support(){
     // Add dynamic logo
     add_theme_support('custom-logo');
 
-    // Add thumbnails of the post
+    // Add thumbnails for posts
     add_theme_support('post-thumbnails');
 
 }
@@ -57,4 +57,34 @@ function random_template_register_scripts(){
 }
 
 add_action('wp_enqueue_scripts','random_template_register_scripts');
+
+
+function random_template_widget_areas(){
+
+    register_sidebar(
+        [
+            'before_title'=>'',
+            'after_title'=>'',
+            'before_widget'=>'',
+            'after_widget'=>'',
+            'name'=>'Sidebar Area',
+            'id'=>'sidebar-1',
+            'description'=>'Sidebar Widget Area'
+        ]
+    );
+
+    register_sidebar(
+        [
+            'before_title'=>'',
+            'after_title'=>'',
+            'before_widget'=>'',
+            'after_widget'=>'',
+            'name'=>'footer Area',
+            'id'=>'footer-1',
+            'description'=>'Footer Widget Area'
+        ]
+    );
+    
+}
+add_action('widgets_init','random_template_widget_areas');
 ?>

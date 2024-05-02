@@ -10,9 +10,9 @@
     <meta name="author" content="https://youtube.com/FollowAndrew">    
     <link rel="shortcut icon" href="/wp-content/themes/random_template/assets/images/logo.png"> 
     
-	<?php
-	wp_head();
-	?>
+    <?php
+    get_search_form();
+    ?>
 </head> 
 
 <body>
