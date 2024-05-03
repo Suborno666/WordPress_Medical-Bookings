@@ -13,14 +13,6 @@ function random_template_theme_support(){
 
 }
 
-// register_nav_menus(
-//     array(
-//         'footer_our_services' => esc_html__( 'Footer our services', 'medical_support' ),
-//         'footer_useful_link' => esc_html__( 'Footer useful link menu', 'medical_support' ),
-//         'header_menu' => esc_html__( 'Header menu', 'medical_support' ),
-//     )
-// );
-
 add_action('after_setup_theme','random_template_theme_support');
 
 function random_template_menus(){

@@ -59,14 +59,6 @@
                             'items_wrap'=>'<ul id="" class="navbar-nav flex-column text-sm-center text-md-left">%3$s</ul>'
                         ]
                     );
-                
-
-                // wp_nav_menu( array( 
-                //     'menu' => 'Header menu', 
-                //     'menu_class' => 'main-nav__navigation-box',
-                //     //'container_class' => 'menu-class'
-                //     //'fallback_cb' => ‘wp_page_menu’ 
-                // ) ); 
         
                 ?>
 
@@ -82,5 +74,12 @@
         
     <div class="main-wrapper">
 	    <header class="page-title theme-bg-light text-center gradient py-5">
-			<h1 class="heading"><?php the_title()?></h1>
+			<h1 class="heading">
+                <?php
+                if (!is_front_page() && is_home() ) {
+                    get_search_form();
+                }else{
+                    the_title();
+                }
+                ?></h1>
 		</header>
