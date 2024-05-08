@@ -6,7 +6,6 @@ get_header();
 	<?php
 	if(have_posts()){
 		while( have_posts()){
-			$id = get_the_ID();
 			the_post();
 			get_template_part('template-parts/content','page');
 
