@@ -65,7 +65,7 @@ add_action( 'wp_ajax_nopriv_register_user', 'e_commerce_user_create' );
 add_action( 'wp_ajax_register_user', 'e_commerce_user_create' );
 
 function e_commerce_user_login(){ 
-    if ( isset($_POST["user_email"]) && isset($_POST["user_password"]) ) {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $user_login     = esc_attr($_POST["email"]);
         $user_password  = esc_attr($_POST["password"]);
@@ -77,12 +77,15 @@ function e_commerce_user_login(){
         $creds['remember'] = true;
         
         $user = wp_signon( $creds, false );
-        
-        $userID = $user->ID;
 
-        wp_set_current_user( $userID, $user_login );
-        wp_set_auth_cookie( $userID, true, false );
         do_action( 'wp_login', $user_login );
+
+        $user_signon = wp_signon( $creds, false );
+        if ( is_wp_error($user_signon) ){
+            echo json_encode(array('loggedin'=>false, 'redirect'=>'', 'message'=>__('Wrong username or password.')));
+        } else{
+            echo json_encode(array('loggedin'=>true,'message'=>__('SUCCESS.')));
+        }
     }
     die();
 }

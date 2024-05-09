@@ -66,12 +66,26 @@
                                 <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
                             </a>
                             <div class="nav-item dropdown">
+                            <?php
+                                if ( is_user_logged_in() ) {
+                                    $current_user = wp_get_current_user();
+                                    // echo json_encode(['data'=>'Success']);
+                                    echo $current_user->display_name;
+                                }
+                                ?>
                                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                                     <i class="fas fa-user fa-2x"></i>
                                 </a>
+
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                     <a href="<?php echo get_the_permalink(23);?>" class="dropdown-item">Register</a>
-                                    <a href="<?php echo get_the_permalink(15);?>" class="dropdown-item">Login</a>
+                                    <?php
+                                    if ( is_user_logged_in() ) {
+                                    ?>
+                                        <a href="<?php echo get_the_permalink(27);?>" class="dropdown-item">Logout</a>
+                                    <?php } else {?>
+                                        <a href="<?php echo get_the_permalink(15);?>" class="dropdown-item">Login</a>
+                                    <?php } ?>
                                 </div>
                             </div>
                             
