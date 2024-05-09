@@ -10,6 +10,9 @@ add_action('after-setup-theme','e_commerce_theme_support');
 function e_commerce_enqueue_links(){
 
     // **********************Header*********************
+
+    //Jquery
+    wp_enqueue_script('js-google-jquery',"https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js",[],'3.6.4',false);
     //Google Web Fonts
     wp_enqueue_style('google-apis',"https://fonts.googleapis.com",[],'',false);
     wp_enqueue_style('google-gstatic',"https://fonts.gstatic.com",[],'',false);
@@ -30,7 +33,6 @@ function e_commerce_enqueue_links(){
 
     // **********************Footer*********************
     // JS Libraries
-    wp_enqueue_script('js-google-jquery',"https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js",[],'3.6.4',true);
     wp_enqueue_script('js-jsdelivr-bootstrap',"https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js",[],'5.0.0',true);
     wp_enqueue_script('js-easing',get_template_directory_uri().'/assets/lib/easing/easing.min.js',[],'1.0',true);
     wp_enqueue_script('js-waypoint',get_template_directory_uri().'/assets/lib/waypoints/waypoints.min.js',[],'1.0',true);
@@ -44,5 +46,47 @@ function e_commerce_enqueue_links(){
 add_action('wp_enqueue_scripts','e_commerce_enqueue_links');
 
 
+function e_commerce_user_create(){ 
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
+        $email = isset($_POST['email'])?$_POST['email']:'';
+        $password = isset($_POST['password'])?$_POST['password']:'';
+    
+        $user = wp_create_user($email,$password);
+        if($user){
+            echo json_encode(['data'=>'User created successfully']);
+        }else{
+            echo json_encode(['data'=>'Error in field']);
+        }
+    }
+    die();
+}
+add_action( 'wp_ajax_nopriv_register_user', 'e_commerce_user_create' );
+add_action( 'wp_ajax_register_user', 'e_commerce_user_create' );
+
+function e_commerce_user_login(){ 
+    if ( isset($_POST["user_email"]) && isset($_POST["user_password"]) ) {
+
+        $user_login     = esc_attr($_POST["email"]);
+        $user_password  = esc_attr($_POST["password"]);
+        
+        
+        $creds = array();
+        $creds['user_login'] = $user_login;
+        $creds['user_password'] = $user_password;
+        $creds['remember'] = true;
+        
+        $user = wp_signon( $creds, false );
+        
+        $userID = $user->ID;
+
+        wp_set_current_user( $userID, $user_login );
+        wp_set_auth_cookie( $userID, true, false );
+        do_action( 'wp_login', $user_login );
+    }
+    die();
+}
+add_action( 'wp_ajax_nopriv_custom_login', 'e_commerce_user_login' );
+add_action( 'wp_ajax_custom_login', 'e_commerce_user_login' );
 
 ?>

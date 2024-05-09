@@ -1,15 +1,18 @@
 <?php 
 // Template Name: Login
-get_header();?>
+get_header();
+?>
 
 <body>
     <!-- heading -->
-    <h3 class="lead"  style="display:flex;justify-content:center;margin-top: 154px;">
+    <h3 class="lead" style="display:flex;justify-content:center;margin-top: 154px;">
         <?php
             the_title();
         ?>
     </h3>
-    <form action="" method="post" class="mx-auto p-2 grid gap-5" style="width: 450px;margin-top: 54px;">
+    
+    <form id="form" action="<?php echo esc_url( home_url('admin-post.php') ); ?>" method="post" class="mx-auto p-2 grid gap-5" style="width: 450px;margin-top: 54px;">
+        <input type="hidden" name="action" value="custom_login">
         <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
             <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
@@ -24,14 +27,32 @@ get_header();?>
             <label class="form-check-label" for="exampleCheck1">Check me out</label>
         </div>
         <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+        <p id="response"></p>
+        <p></p>
     </form>
+    <script>
+        $(()=>{
+            $("#form").on('submit',(e)=>{
+                e.preventDefault();
+                var formData = new FormData($('#form')[0]);
+                formData.append("action", "custom_login");
+                for( var [key,value] of formData.entries()){
+                    console.log(key,"=>",value)
+                }
+                $.ajax({
+                    type:"POST",
+                    url: ajaxurl,
+                    data: formData,
+                    dataType: 'json',
+                    processData: false,
+                    contentType: false,
+                    success:(res)=>{
+                        $("#response").html(res.data);
+                        $("#response").css('color','green');
+                    }
+                })
+            })
+        })
+    </script>
 </body>
-<?php
-$email = isset($_POST['email'])?$_POST['email']:'';
-$password = isset($_POST['password'])?$_POST['password']:'';
-
-wp_create_user($email,$password);
-?>
-    
 <?php get_footer();?>
-
