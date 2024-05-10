@@ -20,13 +20,9 @@ get_header();
             <label for="exampleInputPassword1">Password</label>
             <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
         </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">First Name</label>
-            <input type="text" name="first_name" class="form-control" id="formGroupExampleInput" placeholder="First Name">
-        </div>
-        <div class="form-group">
-            <label for="exampleInputPassword1">Last Name</label>
-            <input type="text" name="last_name" class="form-control" id="formGroupExampleInput" placeholder="Last Name">
+        <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Do you want to update more fields?</label>
         </div>
         <p id="response"></p>
         <button type="submit" name="submit" class="btn btn-primary" value="Register">Register</button>
@@ -37,7 +33,7 @@ get_header();
             $("#form").on('submit',(e)=>{
                 e.preventDefault();
                 var formData = new FormData($('#form')[0]);
-                formData.append("action", "register_user");
+                formData.append("action", "update_user");
                 for( var [key,value] of formData.entries()){
                     console.log(key,"=>",value)
                 }
@@ -49,8 +45,14 @@ get_header();
                     processData: false,
                     contentType: false,
                     success:(res)=>{
-                        $("#response").html(res.data);
-                        $("#response").css('color','green');
+                        if(res.update){
+                            $("#response").html(res.data);
+                            $("#response").css('color','green');
+                            location='http://localhost/wordpress';
+                        }else{
+                            $("#response").html(res.data);
+                            $("#response").css('color','red');
+                        }
                     }
                 })
             })

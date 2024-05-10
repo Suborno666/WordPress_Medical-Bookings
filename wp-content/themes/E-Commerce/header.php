@@ -1,4 +1,5 @@
 <?php
+
 global $current_user;
 
 ?>
@@ -83,8 +84,8 @@ global $current_user;
                                     ?>
                                         <a href="<?php echo get_the_permalink(23);?>" class="dropdown-item">Register</a>
                                     <?php } else {?>
-                                        <a href="<?php echo get_the_permalink(23);?>" class="dropdown-item"><?php echo $current_user->display_name;?></a>
-                                        <a href="<?php echo get_the_permalink(1);?>" class="dropdown-item">Update User</a>
+                                        <a class="dropdown-item"><?php echo $current_user->display_name;?></a>
+                                        <a href="<?php echo get_the_permalink(31);?>" class="dropdown-item">Update User</a>
                                     <?php }?>
                                     <?php
                                     if ( is_user_logged_in() ) {
