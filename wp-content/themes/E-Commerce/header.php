@@ -69,7 +69,6 @@
                             <?php
                                 if ( is_user_logged_in() ) {
                                     $current_user = wp_get_current_user();
-                                    // echo json_encode(['data'=>'Success']);
                                     echo $current_user->display_name;
                                 }
                                 ?>
@@ -82,7 +81,7 @@
                                     <?php
                                     if ( is_user_logged_in() ) {
                                     ?>
-                                        <a href="<?php echo get_the_permalink(27);?>" class="dropdown-item">Logout</a>
+                                        <a href="<?php echo wp_logout_url( home_url()); ?>" class="dropdown-item">Logout</a>
                                     <?php } else {?>
                                         <a href="<?php echo get_the_permalink(15);?>" class="dropdown-item">Login</a>
                                     <?php } ?>
