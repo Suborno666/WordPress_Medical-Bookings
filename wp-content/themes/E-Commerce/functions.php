@@ -51,9 +51,6 @@ function e_commerce_user_create(){
     
         $email = isset($_POST['email'])?$_POST['email']:'';
         $password = isset($_POST['password'])?$_POST['password']:'';
-
-        $first_name     = esc_attr($_POST["first_name"]);
-        $last_name   = esc_attr($_POST["last_name"]);
     
         $user = wp_create_user($email,$password);
         if($user){
@@ -71,26 +68,13 @@ function e_commerce_user_login(){
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $user_login     = esc_attr($_POST["email"]);
-        $user_password  = esc_attr($_POST["password"]);  
+        $user_password  = esc_attr($_POST["password"]);
         
-        $creds = 
-        [
-            'user_login' => $user_login,
-            'user_password' => $user_password,
-            'remember' => true
-        ];
         
-        $meta_data = [
-            'first_name' => $first_name,
-            'last_name' => $last_name
-        ];
-
-        $current_user_id = get_current_user_id();
-        foreach ($meta_data as $key=>$value)
-        {
-            add_user_meta($current_user_id,$key,$value);
-        }
-        $user = wp_signon( $creds, false );
+        $creds = array();
+        $creds['user_login'] = $user_login;
+        $creds['user_password'] = $user_password;
+        $creds['remember'] = true;
 
         do_action( 'wp_login', $user_login );
 
@@ -117,7 +101,7 @@ function e_commerce_user_update(){
         $creds = [
             'ID'=>$current_user_id,
             'user_login' => $user_login,
-            'user_pass' => $user_password,
+            'user_password' => $user_password,
         ];
         if(wp_update_user($creds)){
             echo json_encode(['data'=>'Updated','update'=>true]);
