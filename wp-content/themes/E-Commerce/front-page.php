@@ -31,9 +31,11 @@
             <div class="container py-5">
                 <div class="row g-5 align-items-center">
                     <div class="col-md-12 col-lg-7">
-                        <h4 class="mb-3 text-secondary">100% Organic Foods</h4>
+                        <?php
+                        $details = get_post_meta(74,'Sub_Heading',true); ?>
+                        
+                        <h4 class="mb-3 text-secondary"><?php echo $details?></h4>
                         <h1 class="mb-5 display-3 text-primary">
-                            <!-- God is Gay -->
                         <?php
                         if(have_posts()){
                             while( have_posts()){
@@ -174,11 +176,6 @@
                                 <div class="col-lg-12">
                                     <div class="row g-4">
                                     <?php 
-
-                                    /**
-                                     * Setup query to show the ‘services’ post type with ‘8’ posts.
-                                     * Output the title with an excerpt.
-                                     */
                                         $args = array(  
                                             'post_type' => 'fruit',
                                             'post_status' => 'publish',
@@ -194,7 +191,12 @@
                                                     <div class="fruite-img">
                                                         <img src="<?php the_post_thumbnail_url('thumbnail')?>" class="img-fluid w-100 rounded-top" alt="">
                                                     </div>
-                                                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
+                                                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
+                                                        <?php 
+                                                        $post_type = get_post_type( get_the_ID() );
+                                                        echo $post_type ;
+                                                        ?>
+                                                        </div>
                                                     <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                                                         <h4><?php the_title(); ?></h4>
                                                         <p><?php the_content(); ?></p>
@@ -218,37 +220,43 @@
                             <div class="row g-4">
                                 <div class="col-lg-12">
                                     <div class="row g-4">
-                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="<?php echo get_template_directory_uri().'/assets/images/fruite-item-5.jpg'?>" class="img-fluid w-100 rounded-top" alt="">
-                                                </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Grapes</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                        <?php 
+                                            $args = array(  
+                                                'post_type' => 'vegetable',
+                                                'post_status' => 'publish',
+                                                'posts_per_page' => -1, 
+                                                'orderby' => 'title', 
+                                                'order' => 'ASC', 
+                                            );
+
+                                            $loop = new WP_Query( $args );                                             
+                                            while ( $loop->have_posts() ) : $loop->the_post(); ?>
+                                                <div class="col-md-6 col-lg-4 col-xl-3">
+                                                    <div class="rounded position-relative fruite-item">
+                                                        <div class="fruite-img">
+                                                            <img src="<?php the_post_thumbnail_url('thumbnail')?>" class="img-fluid w-100 rounded-top" alt="">
+                                                        </div>
+                                                        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
+                                                        <?php 
+                                                        $post_type = get_post_type( get_the_ID() );
+                                                        echo $post_type ;
+                                                        ?>
+                                                        </div>
+                                                        <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                            <h4><?php the_title(); ?></h4>
+                                                            <p><?php the_content(); ?></p>
+                                                            <div class="d-flex justify-content-between flex-lg-wrap">
+                                                                <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
+                                                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="<?php echo get_template_directory_uri().'/assets/images/fruite-item-2.jpg'?>" class="img-fluid w-100 rounded-top" alt="">
-                                                </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Raspberries</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <?php    endwhile;
+
+                                            wp_reset_postdata();
+
+                                        ?>
                                         </div>
                                     </div>
                                 </div>

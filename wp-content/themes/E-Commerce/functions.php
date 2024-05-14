@@ -175,5 +175,39 @@ function e_commerce_create_posttype_fruit() {
 // Hooking up our function to theme setup
 add_action( 'init', 'e_commerce_create_posttype_fruit' );
 
+// Our custom post type function
+function e_commerce_create_posttype_vegetable() {
+    $supports = 
+    [
+        'title', // post title
+        'editor', // post content
+        'thumbnail', // post thumbnail
+        'excerpt', // post excerpt
+        'revisions'// post revision
+    ];
+
+    register_post_type( 'vegetable',
+        array(
+
+            'labels' => [
+                'name' => __( 'Vegetables' ),
+                'singular_name' => __( 'Vegetable' ),
+                'add_new' => _x('Add Vegetable', 'add vegetable'),
+                'add_new_item' => __('Add New Vegetables'),
+                'new_item' => __('New Vegetables'),
+            
+            ],
+            'supports'=>$supports,
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => ['slug' => 'vegetable'],
+            'show_in_rest' => true,
+  
+        )
+    );
+}
+// Hooking up our function to theme setup
+add_action( 'init', 'e_commerce_create_posttype_vegetable' );
+
 
 ?>
