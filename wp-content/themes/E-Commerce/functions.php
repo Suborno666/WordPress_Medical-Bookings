@@ -2,10 +2,18 @@
 
 
 function e_commerce_theme_support(){
+    
+    // Add Title Tag
     add_theme_support('title-tag');
+
+    // Add dynamic logo
+    add_theme_support('custom-logo');
+
+    // Add thumbnails for posts
+    add_theme_support('post-thumbnails');
 }
 
-add_action('after-setup-theme','e_commerce_theme_support');
+add_action('after_setup_theme','e_commerce_theme_support');
 
 function e_commerce_enqueue_links(){
 
@@ -45,7 +53,7 @@ function e_commerce_enqueue_links(){
 
 add_action('wp_enqueue_scripts','e_commerce_enqueue_links');
 
-
+//*****************************************Register*****************************************
 function e_commerce_user_create(){ 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
@@ -64,6 +72,8 @@ function e_commerce_user_create(){
 add_action( 'wp_ajax_nopriv_register_user', 'e_commerce_user_create' );
 add_action( 'wp_ajax_register_user', 'e_commerce_user_create' );
 
+
+//*****************************************Login*****************************************
 function e_commerce_user_login(){ 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -90,6 +100,7 @@ function e_commerce_user_login(){
 add_action( 'wp_ajax_nopriv_custom_login', 'e_commerce_user_login' );
 add_action( 'wp_ajax_custom_login', 'e_commerce_user_login' );
 
+//*****************************************Update*****************************************
 function e_commerce_user_update(){
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -114,4 +125,55 @@ function e_commerce_user_update(){
 }
 add_action('wp_ajax_nopriv_update_user','e_commerce_user_update');
 add_action('wp_ajax_update_user','e_commerce_user_update');
+
+// *****************************************Adding Menus*****************************************
+
+function e_commerce_register_nav_menus(){
+    register_nav_menus(
+        [
+            'header_menu' => esc_html__( 'Header menu', '' ),
+        ]
+    );
+}
+
+add_action('init','e_commerce_register_nav_menus');
+
+
+//Adding Post Content of Fruit
+
+// Our custom post type function
+function e_commerce_create_posttype_fruit() {
+    $supports = 
+    [
+        'title', // post title
+        'editor', // post content
+        'thumbnail', // post thumbnail
+        'excerpt', // post excerpt
+        'revisions'// post revision
+    ];
+
+    register_post_type( 'fruit',
+        array(
+
+            'labels' => [
+                'name' => __( 'Fruits' ),
+                'singular_name' => __( 'Fruit' ),
+                'add_new' => _x('Add Fruit', 'add fruit'),
+                'add_new_item' => __('Add New Fruits'),
+                'new_item' => __('New Fruits'),
+            
+            ],
+            'supports'=>$supports,
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => array('slug' => 'fruit'),
+            'show_in_rest' => true,
+  
+        )
+    );
+}
+// Hooking up our function to theme setup
+add_action( 'init', 'e_commerce_create_posttype_fruit' );
+
+
 ?>
