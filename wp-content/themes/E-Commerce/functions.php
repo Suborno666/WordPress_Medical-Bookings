@@ -209,5 +209,104 @@ function e_commerce_create_posttype_vegetable() {
 // Hooking up our function to theme setup
 add_action( 'init', 'e_commerce_create_posttype_vegetable' );
 
+// Our custom post type function
+function e_commerce_create_posttype_bread() {
+    $supports = 
+    [
+        'title', // post title
+        'editor', // post content
+        'thumbnail', // post thumbnail
+        'excerpt', // post excerpt
+        'revisions'// post revision
+    ];
 
+    register_post_type( 'bread',
+        array(
+
+            'labels' => [
+                'name' => __( 'Breads' ),
+                'singular_name' => __( 'Bread' ),
+                'add_new' => _x('Add Bread', 'add bread'),
+                'add_new_item' => __('Add New Breads'),
+                'new_item' => __('New Breads'),
+            
+            ],
+            'supports'=>$supports,
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => ['slug' => 'bread'],
+            'show_in_rest' => true,
+  
+        )
+    );
+}
+// Hooking up our function to theme setup
+add_action( 'init', 'e_commerce_create_posttype_bread' );
+
+// Our custom post type function
+function e_commerce_create_posttype_meat() {
+    $supports = 
+    [
+        'title', // post title
+        'editor', // post content
+        'thumbnail', // post thumbnail
+        'excerpt', // post excerpt
+        'revisions'// post revision
+    ];
+
+    register_post_type( 'meat',
+        array(
+
+            'labels' => [
+                'name' => __( 'Meats' ),
+                'singular_name' => __( 'Meat' ),
+                'add_new' => _x('Add Meat', 'add meat'),
+                'add_new_item' => __('Add New Meats'),
+                'new_item' => __('New Meats'),
+            
+            ],
+            'supports'=>$supports,
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => ['slug' => 'meat'],
+            'show_in_rest' => true,
+  
+        )
+    );
+}
+// Hooking up our function to theme setup
+add_action( 'init', 'e_commerce_create_posttype_meat' );
+
+/**
+* Register Metabox
+*/
+function prefix_add_meta_boxes(){
+    $post_types = ['fruit','vegetable','bread','meat'];
+	add_meta_box( 'unique_mb_id', __( 'Metabox Title','text-domain' ),'prefix_mb_callback', $post_types );
+}
+add_action('add_meta_boxes', 'prefix_add_meta_boxes' );
+	
+/**
+* Meta field callback function
+*/
+function prefix_mb_callback($post_id){
+    global $post; ?>
+	<label for="mb_id"><?php echo esc_html('Price: ','text-domain'); ?></label>
+	<input type="text" class="regular-text" value="<?php echo get_post_meta($post->ID,'unique_mb_id',true); ?>" name="unique_mb_id" id="mb_id">
+<?php }
+
+
+/**
+* Save metabox data
+*/
+function prefix_save_meta_data( $post_id ){
+
+    if ( isset( $_POST['unique_mb_id'] ) ) {       
+      
+        $meta_value = sanitize_text_field( $_POST['unique_mb_id'] );
+        update_post_meta( $post_id, 'unique_mb_id', $meta_value );
+
+    }
+  }
+  add_action( 'save_post', 'prefix_save_meta_data' );
 ?>
