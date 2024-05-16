@@ -33,14 +33,7 @@
                     <div class="col-md-12 col-lg-7">
                        
                         
-                    <h4 class="mb-3 text-secondary">
-                        <?php 
-                            $meta_value = get_post_meta( get_the_ID(), 'unique_mb_id', true );
-                            if ( !empty( $meta_value ) ) {
-                                echo esc_html( $meta_value );
-                            }
-                        ?>
-                    </h4>
+                    <h4 class="mb-3 text-secondary">100% Organic Foods</h4>
 
                         <h1 class="mb-5 display-3 text-primary">
                         <?php
@@ -53,8 +46,15 @@
                         ?>
                         </h1>
                         <div class="position-relative mx-auto">
-                            <input class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill" type="number" placeholder="Search">
-                            <button type="submit" class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100" style="top: 0; right: 25%;">Submit Now</button>
+                        <form role="search" method="get" class="search-form" action="<?php echo home_url( '/' ); ?>">
+                            <label>
+                                <span class="screen-reader-text"><?php echo _x( 'Search for:', 'label' ) ?></span>
+                                <input type="search" class="search-field" placeholder="<?php echo esc_attr_x( 'Search …', 'placeholder' ) ?>" value="<?php echo get_search_query() ?>" name="s" title="<?php echo esc_attr_x( 'Search for:', 'label' ) ?>" />
+                            </label>
+                            <input type="submit" class="search-submit" value="<?php echo esc_attr_x( 'Search', 'submit button' ) ?>" />
+                        </form>
+                            <!-- <input class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill" type="number" placeholder="Search">
+                            <button type="submit" class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100" style="top: 0; right: 25%;">Submit Now</button> -->
                         </div>
                     </div>
                     <div class="col-md-12 col-lg-5">
@@ -203,8 +203,7 @@
                                                         </div>
                                                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
                                                             <?php 
-                                                            $post_type = get_post_type( get_the_ID() );
-                                                            echo $post_type ;
+                                                                echo get_post_type( get_the_ID() );
                                                             ?>
                                                             </div>
                                                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">

@@ -126,18 +126,7 @@ function e_commerce_user_update(){
 add_action('wp_ajax_nopriv_update_user','e_commerce_user_update');
 add_action('wp_ajax_update_user','e_commerce_user_update');
 
-// *****************************************Adding Menus*****************************************
-
-function e_commerce_register_nav_menus(){
-    register_nav_menus(
-        [
-            'header_menu' => esc_html__( 'Header menu', '' ),
-        ]
-    );
-}
-
-add_action('init','e_commerce_register_nav_menus');
-
+ 
 
 //Adding Post Content of Fruit
 
