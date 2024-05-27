@@ -11,7 +11,7 @@
             <div class="modal-dialog modal-fullscreen">
                 <div class="modal-content rounded-0">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Search by keywords</h5>
+                        <h5 class="modal-title" id="exampleModalLabel"><?php my_custom_action_hook(); ?></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body d-flex align-items-center">
@@ -24,7 +24,6 @@
             </div>
         </div>
         <!-- Modal Search End -->
-
 
         <!-- Hero Start -->
         <div class="container-fluid py-5 mb-5 hero-header">

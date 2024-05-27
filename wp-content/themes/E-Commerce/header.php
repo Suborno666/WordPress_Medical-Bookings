@@ -38,8 +38,24 @@ global $current_user;
                         <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">Email@Example.com</a></small>
                     </div>
                     <div class="top-link pe-2">
-                        <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
-                        <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
+                        <a href="#" class="text-white"><small class="text-white mx-2"><?php $content = "Suborno";
+
+                         echo apply_filters('my_custom_filter', $content);  
+                         add_filter('my_custom_filter','my_custom_function');
+                         function my_custom_function(){
+                            return "DAPL";
+                         }
+                         ?></small>/</a>
+                        <a href="#" class="text-white"><small class="text-white mx-2">
+                            <?php
+                            // Somewhere in your theme file (e.g., template file)
+                            // $original_content = "Terms and Scevices";
+                            // $filtered_content = my_custom_filter_hook($original_content);
+
+                            // echo $filtered_content; // Outputs: Original Content - Filtered Content!
+
+                            ?>
+                        </small>/</a>
                         <a href="#" class="text-white"><small class="text-white ms-2">Sales and Refunds</small></a>
                     </div>
                 </div>

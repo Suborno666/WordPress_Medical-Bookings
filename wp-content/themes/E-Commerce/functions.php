@@ -216,7 +216,7 @@ function e_commerce_create_posttype_bread() {
                 'name' => __( 'Breads' ),
                 'singular_name' => __( 'Bread' ),
                 'add_new' => _x('Add Bread', 'add bread'),
-                'add_new_item' => __('Add New Breads'),
+                'add_new_i tem' => __('Add New Breads'),
                 'new_item' => __('New Breads'),
             
             ],
@@ -269,11 +269,11 @@ add_action( 'init', 'e_commerce_create_posttype_meat' );
 /**
 * Register Metabox
 */
-function prefix_add_meta_boxes(){
+function prefix_add_meta_box(){
     $post_types = ['fruit','vegetable','bread','meat'];
 	add_meta_box( 'unique_mb_id', __( 'Metabox Title','text-domain' ),'prefix_mb_callback', $post_types );
 }
-add_action('add_meta_boxes', 'prefix_add_meta_boxes' );
+add_action('add_meta_boxes', 'prefix_add_meta_box' );
 	
 /**
 * Meta field callback function
@@ -297,5 +297,42 @@ function prefix_save_meta_data( $post_id ){
 
     }
   }
-  add_action( 'save_post', 'prefix_save_meta_data' );
+add_action( 'save_post', 'prefix_save_meta_data' );
+
+// In your theme's functions.php or any other theme file
+
+// Define the custom action hook
+function my_custom_action_hook() {
+    do_action('my_custom_action');
+}
+
+// In your theme's functions.php
+
+// Function to be executed when the custom action is triggered
+function my_custom_action_function() {
+    echo "My custom action has been triggered!";
+}
+
+// Hook the custom function to the custom action
+add_action('my_custom_action', 'my_custom_action_function');
+
+// In your theme's functions.php or any other theme file
+
+// Define the custom filter hook
+// function my_custom_filter_hook($content) {
+//     return apply_filters('my_custom_filter', $content);
+// }
+
+// // In your theme's functions.php
+
+// // Function to modify the content
+// function my_custom_filter_function($content) {
+//     return $content . " - Filtered!";
+// }
+
+// // Hook the custom function to the custom filter
+// add_filter('my_custom_filter', 'my_custom_filter_function');
+
+
+
 ?>
