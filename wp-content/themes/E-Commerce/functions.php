@@ -316,22 +316,72 @@ function my_custom_action_function() {
 // Hook the custom function to the custom action
 add_action('my_custom_action', 'my_custom_action_function');
 
-// In your theme's functions.php or any other theme file
+/**
+ * Add Image Meta field
+ */
+function create_custom_meta_box() {
+    add_meta_box(
+        'custom_image_field', // Unique ID
+        'Custom Page Image', // Title displayed
+        'display_custom_image_box', // Callback function to display field
+        'page', // Post type where the field will show (adjust for other types)
+        'normal', // Context where the field appears ('normal', 'advanced', or 'side')
+        'high' // Priority within the context ('high', 'default', 'low')
+    );
+}
+add_action('add_meta_boxes', 'create_custom_meta_box');
 
-// Define the custom filter hook
-// function my_custom_filter_hook($content) {
-//     return apply_filters('my_custom_filter', $content);
-// }
+/**
+ * Display Image Meta field
+ */
+function display_custom_image_box($post) {
+    $custom_image_id = get_post_meta($post->ID, 'custom_image_id', true); // Get existing image ID
+    $custom_image_url = wp_get_attachment_image_url($custom_image_id, 'thumbnail'); // Get image URL
 
-// // In your theme's functions.php
+    ?>
+    <p>
+        <label for="custom_image_id">Upload Custom Image:</label><br>
+        <input type="hidden" name="custom_image_id" id="custom_image_id" value="<?php echo esc_attr($custom_image_id); ?>">
+        <button type="button" class="upload_image_button">Select Image</button><br>
+        <img id="custom_image_preview" src="<?php echo esc_url($custom_image_url); ?>" style="max-width: 300px;">
+    </p>
+    <script>
+        jQuery(document).ready(function($) {
+            $('.upload_image_button').click(function() {
+                var custom_uploader = wp.media({
+                    title: 'Select Custom Image',
+                    button: {
+                        text: 'Select'
+                    },
+                    multiple: false
+                });
 
-// // Function to modify the content
-// function my_custom_filter_function($content) {
-//     return $content . " - Filtered!";
-// }
+                custom_uploader.on('select', function() {
+                    var attachment = custom_uploader.state().get('selection').first().toJSON();
+                    $('#custom_image_id').val(attachment.id);
+                    $('#custom_image_preview').attr('src', attachment.url);
+                });
 
-// // Hook the custom function to the custom filter
-// add_filter('my_custom_filter', 'my_custom_filter_function');
+                custom_uploader.open();
+            });
+        });
+    </script>
+    <?php
+}
+
+/**
+ * Save Image Meta field
+ */
+function save_custom_image_meta($post_id) {
+    if (isset($_POST['custom_image_id'])) {
+        // Sanitize image ID
+        $custom_image_id = sanitize_text_field($_POST['custom_image_id']);
+
+        // Update meta data
+        update_post_meta($post_id, 'custom_image_id', $custom_image_id);
+    }
+}
+add_action('save_post', 'save_custom_image_meta');
 
 
 

@@ -524,7 +524,13 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="position-relative">
-                            <img src="<?php echo get_template_directory_uri().'/assets/images/baner-1.png'?>" class="img-fluid w-100 rounded" alt="">
+                        <?php
+                        $attachment_id = get_post_meta(get_the_ID(), 'custom_image_id', true);
+                        $image_url = wp_get_attachment_url($attachment_id);
+                        if ($image_url) {
+                            echo '<img src="' . esc_url($image_url) . '" class="img-fluid w-100 rounded" alt="">';
+                        }
+                        ?>
                             <div class="d-flex align-items-center justify-content-center bg-white rounded-circle position-absolute" style="width: 140px; height: 140px; top: 0; left: 0;">
                                 <h1 style="font-size: 100px;">1</h1>
                                 <div class="d-flex flex-column">
