@@ -10,28 +10,24 @@ get_header();
             the_title();
         ?>
     </h3>
-    <form id="form" method="post" class="mx-auto p-2 grid gap-5" style="width: 450px;margin-top: 54px;">
+    <form id="form" method="post" class="mx-auto p-2 grid gap-3 row gy-1" style="width: 450px;margin-top: 54px;">
         <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
             <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
         <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
+            <label for="exampleInputPassword1">Register your password</label>
             <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
         </div>
         <div class="form-group">
-            <label for="exampleInputEmail1">First Name</label>
-            <input type="text" name="first_name" class="form-control" id="formGroupExampleInput" placeholder="First Name">
-        </div>
-        <div class="form-group">
-            <label for="exampleInputPassword1">Last Name</label>
-            <input type="text" name="last_name" class="form-control" id="formGroupExampleInput" placeholder="Last Name">
+            <label for="exampleInputEmail1">Write your Occupation</label>
+            <input type="text" name="Occupation" class="form-control" id="formGroupExampleInput" placeholder="Occupation">
         </div>
         <p id="response"></p>
         <button type="submit" name="submit" class="btn btn-primary" value="Register">Register</button>
-        
     </form>
+
     <script>
         $(()=>{
             $("#form").on('submit',(e)=>{

@@ -10,7 +10,7 @@ get_header();
             the_title();
         ?>
     </h3>
-    <form id="form" method="post" class="mx-auto p-2 grid gap-5" style="width: 450px;margin-top: 54px;">
+    <form id="form" method="post" class="mx-auto p-2 grid gap-3 row gy-1" style="width: 450px;margin-top: 54px;">
         <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
             <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">

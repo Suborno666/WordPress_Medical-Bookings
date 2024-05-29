@@ -53,27 +53,71 @@ function e_commerce_enqueue_links(){
 
 add_action('wp_enqueue_scripts','e_commerce_enqueue_links');
 
-//*****************************************Register*****************************************
+//***************************************** Register User *****************************************
 function e_commerce_user_create(){ 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-        $email = isset($_POST['email'])?$_POST['email']:'';
-        $password = isset($_POST['password'])?$_POST['password']:'';
-    
-        $user = wp_create_user($email,$password);
-        if($user){
-            echo json_encode(['data'=>'User created successfully']);
-        }else{
-            echo json_encode(['data'=>'Error in field']);
+        $email = isset($_POST['email']) ? $_POST['email'] : '';
+        $password = isset($_POST['password']) ? $_POST['password'] : '';
+        $occupation = isset($_POST['Occupation']) ? $_POST['Occupation'] : '';
+
+        $user_id = wp_create_user($email, $password);
+        if (is_wp_error($user_id)) {
+            echo json_encode(['data' => 'Error in field']);
+        } else {
+            // Save occupation as user meta
+            update_user_meta($user_id, 'occupation', $occupation);
+            echo json_encode(['data' => 'User created successfully']);
         }
     }
     die();
 }
-add_action( 'wp_ajax_nopriv_register_user', 'e_commerce_user_create' );
-add_action( 'wp_ajax_register_user', 'e_commerce_user_create' );
+add_action('wp_ajax_nopriv_register_user', 'e_commerce_user_create');
+add_action('wp_ajax_register_user', 'e_commerce_user_create');
+
+//***************************************** Register User's Comments *****************************************
+// function e_commerce_user_comment() {
+//     if ($_SERVER["REQUEST_METHOD"] == "POST" && is_user_logged_in()) {
+//         $comment_content = isset($_POST['textarea']) ? sanitize_text_field($_POST['textarea']) : '';
+//         $rating = isset($_POST['rating']) ? floatval($_POST['rating']) : 0;
+        
+//         $user_id = get_current_user_id();
+
+//         if (empty($comment_content) || empty($rating)) {
+//             echo json_encode(['data' => 'Please provide both comment and rating.', 'success' => false]);
+//             die();
+//         }
+
+//         // Create the comment
+//         $commentdata = array(
+//             'comment_post_ID' => get_the_ID(),
+//             'comment_author' => wp_get_current_user()->display_name,
+//             'comment_author_email' => wp_get_current_user()->user_email,
+//             'comment_content' => $comment_content,
+//             'user_id' => $user_id,
+//             'comment_approved' => 1,
+//         );
+
+//         $comment_id = wp_new_comment($commentdata);
+
+//         if ($comment_id) {
+//             // Save rating as comment meta
+//             add_comment_meta($comment_id, 'rating', $rating, true);
+//             echo json_encode(['data' => 'Comment and rating submitted successfully.', 'success' => true]);
+//         } else {
+//             echo json_encode(['data' => 'Error submitting comment.', 'success' => false]);
+//         }
+//     } else {
+//         echo json_encode(['data' => 'You must be logged in to submit a comment.', 'success' => false]);
+//     }
+//     die();
+// }
+
+// add_action('wp_ajax_nopriv_user_comments', 'e_commerce_user_comment');
+// add_action('wp_ajax_user_comments', 'e_commerce_user_comment');
 
 
-//*****************************************Login*****************************************
+
+//***************************************** Login *****************************************
 function e_commerce_user_login(){ 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -100,7 +144,7 @@ function e_commerce_user_login(){
 add_action( 'wp_ajax_nopriv_custom_login', 'e_commerce_user_login' );
 add_action( 'wp_ajax_custom_login', 'e_commerce_user_login' );
 
-//*****************************************Update*****************************************
+//***************************************** Update *****************************************
 function e_commerce_user_update(){
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -383,6 +427,30 @@ function save_custom_image_meta($post_id) {
 }
 add_action('save_post', 'save_custom_image_meta');
 
+function e_commerce_user_testimonials(){
+    $supports = [
+        'thumbnail',
+        'excerpt',
+        'editor',
+        'revisions'
+    ];
+    register_post_type('Testimonials',[
+            'labels'=>[
+                'name'=>__('Testimonials'),
+                'singular_name'=>__('Testimonial'),
+                'add_new'=>_x('Add Testimonials','add Testimonial'),
+                'add_new_item'=>__('Add New Testimonials'),
+                'new_item'=>__('New Testimonials')
+            ],
+            'supports'=>$supports,
+            'public'=>true,
+            'has_archive'=>true,
+            'rewrite'=>['slug'=>'testimonial'],
+            'show_in_rest'=>true
+        ]
+    );
+}
 
+add_action('init','e_commerce_user_testimonials')
 
 ?>
