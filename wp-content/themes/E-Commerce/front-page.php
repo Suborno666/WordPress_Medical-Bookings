@@ -183,7 +183,7 @@
                                     <div class="row g-4">
                                         <?php 
                                             $args = array(  
-                                                'post_type' => ['fruit','vegetable','bread','meat'],
+                                                'post_type' => ['product'],
                                                 'post_status' => 'publish',
                                                 'posts_per_page' => -1, 
                                                 'orderby'   => [
@@ -201,10 +201,19 @@
                                                             <img src="<?php the_post_thumbnail_url('thumbnail')?>" class="img-fluid w-100 rounded-top" alt="">
                                                         </div>
                                                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
-                                                            <?php 
-                                                                echo get_post_type( get_the_ID() );
-                                                            ?>
-                                                            </div>
+                                                        <?php 
+                                                            $terms = get_the_terms(get_the_ID(), 'product category');
+                                                            if ($terms && !is_wp_error($terms)) {
+                                                                $term_names = array();
+                                                                foreach ($terms as $term) {
+                                                                    $term_names[] = $term->name;
+                                                                }
+                                                                echo implode(', ', $term_names);
+                                                            } else {
+                                                                echo 'Uncategorized';
+                                                            }
+                                                        ?>
+                                                        </div>
                                                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                                                             <h4><?php the_title(); ?></h4>
                                                             <p><?php the_content(); ?></p>
@@ -230,11 +239,21 @@
                                     <div class="row g-4">
                                         <?php 
                                             $args = array(  
-                                                'post_type' => 'vegetable',
+                                                'post_type' => ['product'],
                                                 'post_status' => 'publish',
                                                 'posts_per_page' => -1, 
-                                                'orderby' => 'title', 
+                                                'orderby'   => [
+                                                    'date' =>'DESC',
+                                                    'menu_order'=>'ASC',
+                                                ],
                                                 'order' => 'ASC', 
+                                                'tax_query' => array(
+                                                    array(
+                                                        'taxonomy' => 'product category',
+                                                        'field'    => 'slug',
+                                                        'terms'    => 'vegetables',
+                                                    ),
+                                                ),
                                             );
 
                                             $loop = new WP_Query( $args );                                             
@@ -246,8 +265,16 @@
                                                         </div>
                                                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
                                                         <?php 
-                                                        $post_type = get_post_type( get_the_ID() );
-                                                        echo $post_type ;
+                                                            $terms = get_the_terms(get_the_ID(), 'product category');
+                                                            if ($terms && !is_wp_error($terms)) {
+                                                                $term_names = array();
+                                                                foreach ($terms as $term) {
+                                                                    $term_names[] = $term->name;
+                                                                }
+                                                                echo implode(', ', $term_names);
+                                                            } else {
+                                                                echo 'Uncategorized';
+                                                            }
                                                         ?>
                                                         </div>
                                                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -260,7 +287,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                        <?php    endwhile;
+                                        <?php endwhile;
 
                                             wp_reset_postdata();
 
@@ -275,11 +302,21 @@
                                     <div class="row g-4">
                                         <?php 
                                             $args = array(  
-                                                'post_type' => 'fruit',
+                                                'post_type' => ['product'],
                                                 'post_status' => 'publish',
                                                 'posts_per_page' => -1, 
-                                                'orderby' => 'title', 
+                                                'orderby'   => [
+                                                    'date' =>'DESC',
+                                                    'menu_order'=>'ASC',
+                                                ],
                                                 'order' => 'ASC', 
+                                                'tax_query' => array(
+                                                    array(
+                                                        'taxonomy' => 'product category',
+                                                        'field'    => 'slug',
+                                                        'terms'    => 'fruit',
+                                                    ),
+                                                ),
                                             );
 
                                             $loop = new WP_Query( $args );                                             
@@ -290,27 +327,35 @@
                                                             <img src="<?php the_post_thumbnail_url('thumbnail')?>" class="img-fluid w-100 rounded-top" alt="">
                                                         </div>
                                                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
-                                                            <?php 
-                                                            $post_type = get_post_type( get_the_ID() );
-                                                            echo $post_type ;
-                                                            ?>
-                                                            </div>
+                                                        <?php 
+                                                            $terms = get_the_terms(get_the_ID(), 'product category');
+                                                            if ($terms && !is_wp_error($terms)) {
+                                                                $term_names = array();
+                                                                foreach ($terms as $term) {
+                                                                    $term_names[] = $term->name;
+                                                                }
+                                                                echo implode(', ', $term_names);
+                                                            } else {
+                                                                echo 'Uncategorized';
+                                                            }
+                                                        ?>
+                                                        </div>
                                                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                                                             <h4><?php the_title(); ?></h4>
                                                             <p><?php the_content(); ?></p>
                                                             <div class="d-flex justify-content-between flex-lg-wrap">
-                                                                <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
+                                                                <p class="text-dark fs-5 fw-bold mb-0"><?php echo 'Rs '.get_post_meta(get_the_ID(),'unique_mb_id',true).'/ kg'?></p>
                                                                 <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                        <?php    endwhile;
+                                        <?php endwhile;
 
                                             wp_reset_postdata();
 
                                         ?>
-                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -320,11 +365,21 @@
                                     <div class="row g-4">
                                         <?php 
                                             $args = array(  
-                                                'post_type' => 'bread',
+                                                'post_type' => ['product'],
                                                 'post_status' => 'publish',
                                                 'posts_per_page' => -1, 
-                                                'orderby' => 'title', 
+                                                'orderby'   => [
+                                                    'date' =>'DESC',
+                                                    'menu_order'=>'ASC',
+                                                ],
                                                 'order' => 'ASC', 
+                                                'tax_query' => array(
+                                                    array(
+                                                        'taxonomy' => 'product category',
+                                                        'field'    => 'slug',
+                                                        'terms'    => 'bread',
+                                                    ),
+                                                ),
                                             );
 
                                             $loop = new WP_Query( $args );                                             
@@ -335,22 +390,30 @@
                                                             <img src="<?php the_post_thumbnail_url('thumbnail')?>" class="img-fluid w-100 rounded-top" alt="">
                                                         </div>
                                                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
-                                                            <?php 
-                                                            $post_type = get_post_type( get_the_ID() );
-                                                            echo $post_type ;
-                                                            ?>
-                                                            </div>
+                                                        <?php 
+                                                            $terms = get_the_terms(get_the_ID(), 'product category');
+                                                            if ($terms && !is_wp_error($terms)) {
+                                                                $term_names = array();
+                                                                foreach ($terms as $term) {
+                                                                    $term_names[] = $term->name;
+                                                                }
+                                                                echo implode(', ', $term_names);
+                                                            } else {
+                                                                echo 'Uncategorized';
+                                                            }
+                                                        ?>
+                                                        </div>
                                                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                                                             <h4><?php the_title(); ?></h4>
                                                             <p><?php the_content(); ?></p>
                                                             <div class="d-flex justify-content-between flex-lg-wrap">
-                                                                <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
+                                                                <p class="text-dark fs-5 fw-bold mb-0"><?php echo 'Rs '.get_post_meta(get_the_ID(),'unique_mb_id',true).'/ kg'?></p>
                                                                 <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                        <?php    endwhile;
+                                        <?php endwhile;
 
                                             wp_reset_postdata();
 
@@ -365,11 +428,21 @@
                                     <div class="row g-4">
                                         <?php 
                                             $args = array(  
-                                                'post_type' => 'meat',
+                                                'post_type' => ['product'],
                                                 'post_status' => 'publish',
                                                 'posts_per_page' => -1, 
-                                                'orderby' => 'title', 
+                                                'orderby'   => [
+                                                    'date' =>'DESC',
+                                                    'menu_order'=>'ASC',
+                                                ],
                                                 'order' => 'ASC', 
+                                                'tax_query' => array(
+                                                    array(
+                                                        'taxonomy' => 'product category',
+                                                        'field'    => 'slug',
+                                                        'terms'    => 'meat',
+                                                    ),
+                                                ),
                                             );
 
                                             $loop = new WP_Query( $args );                                             
@@ -380,22 +453,30 @@
                                                             <img src="<?php the_post_thumbnail_url('thumbnail')?>" class="img-fluid w-100 rounded-top" alt="">
                                                         </div>
                                                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
-                                                            <?php 
-                                                            $post_type = get_post_type( get_the_ID() );
-                                                            echo $post_type ;
-                                                            ?>
-                                                            </div>
+                                                        <?php 
+                                                            $terms = get_the_terms(get_the_ID(), 'product category');
+                                                            if ($terms && !is_wp_error($terms)) {
+                                                                $term_names = array();
+                                                                foreach ($terms as $term) {
+                                                                    $term_names[] = $term->name;
+                                                                }
+                                                                echo implode(', ', $term_names);
+                                                            } else {
+                                                                echo 'Uncategorized';
+                                                            }
+                                                        ?>
+                                                        </div>
                                                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                                                             <h4><?php the_title(); ?></h4>
                                                             <p><?php the_content(); ?></p>
                                                             <div class="d-flex justify-content-between flex-lg-wrap">
-                                                                <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
+                                                                <p class="text-dark fs-5 fw-bold mb-0"><?php echo 'Rs '.get_post_meta(get_the_ID(),'unique_mb_id',true).'/ kg'?></p>
                                                                 <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                        <?php    endwhile;
+                                        <?php endwhile;
 
                                             wp_reset_postdata();
 
@@ -466,18 +547,16 @@
                 <h1 class="mb-0">Fresh Organic Vegetables</h1>
                 <div class="owl-carousel vegetable-carousel justify-content-center">
                     <?php
-                        $args = 
-                        [
-                            'post_type'=>['fruit','vegetable','bread','meat'],
-                            'post_status'=>'publish',
-                            'post_per_page'=>-1,
-                            'orderby' => 
-                            [
-                                'date'=>'DESC',
+                        $args = array(  
+                            'post_type' => ['product'],
+                            'post_status' => 'publish',
+                            'posts_per_page' => -1, 
+                            'orderby'   => [
+                                'date' =>'DESC',
                                 'menu_order'=>'ASC',
                             ],
-                            'order'=>'ASC',
-                        ];
+                            'order' => 'ASC', 
+                        );
                         $loop = new WP_Query($args);
                         while($loop->have_posts()):$loop->the_post();
                     ?>
@@ -486,9 +565,17 @@
                             <img src="<?php the_post_thumbnail_url('thumbnail')?>" class="img-fluid w-100 rounded-top" alt="">
                         </div>
                         <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">
-                        <?php
-                            $post_type = get_post_type(get_the_ID());
-                            echo $post_type;
+                        <?php 
+                            $terms = get_the_terms(get_the_ID(), 'product category');
+                            if ($terms && !is_wp_error($terms)) {
+                                $term_names = array();
+                                foreach ($terms as $term) {
+                                    $term_names[] = $term->name;
+                                }
+                                echo implode(', ', $term_names);
+                            } else {
+                                echo 'Uncategorized';
+                            }
                         ?>
                         </div>
                         <div class="p-4 rounded-bottom">
@@ -793,58 +880,74 @@
         </div>
         <!-- Fact Start -->
 
+        
+        <!-- Testimonial Start -->
+<div class="container-fluid testimonial py-5">
+    <div class="container py-5">
+        <div class="testimonial-header text-center">
+            <h4 class="text-primary">Our Testimonial</h4>
+            <h1 class="display-5 mb-5 text-dark">Our Client Saying!</h1>
+        </div>
+        <button class="btn btn-outline-primary">
+            <a href="<?php echo get_the_permalink(112);?>" class="nav-item nav-link">Submit Review</a>
+        </button>
+        <div class="owl-carousel testimonial-carousel">
+            <?php
+                $args = [
+                    'post_type' => 'testimonials',
+                    'post_status' => 'publish',
+                    'posts_per_page' => -1,
+                    'orderby' => [
+                        'date' => 'DESC',
+                        'menu_order' => 'ASC'
+                    ],
+                    'order' => 'ASC',
+                ];
+                $loop = new WP_Query($args);
+                while($loop->have_posts()): $loop->the_post();
+            ?>
+            <div class="testimonial-item img-border-radius bg-light rounded p-4">
+                <div class="position-relative">
+                    <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
+                    <div class="mb-4 pb-4 border-bottom border-secondary">
+                        <p class="mb-0">
+                            <?php the_content(); ?>
+                        </p>
+                    </div>
+                    <div class="d-flex align-items-center flex-nowrap">
+                        <div class="bg-secondary rounded">
+                            <img src="<?php the_post_thumbnail_url('thumbnail');?>" class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
+                        </div>
+                        <div class="ms-4 d-block">
+                            <h4 class="text-dark"><?php the_title(); ?></h4>
+                            <p class="m-0 pb-3"><?php echo get_post_meta(get_the_ID(), 'unique_tm_profession', true); ?></p>
+                            <div class="d-flex pe-5">
+                                <?php
+                                    $ratings = get_post_meta(get_the_ID(), 'unique_tm_ratings', true);
+                                    $max_stars = 5;
 
-        <!-- Tastimonial Start -->
-        <div class="container-fluid testimonial py-5">
-            <div class="container py-5">
-                <div class="testimonial-header text-center">
-                    <h4 class="text-primary">Our Testimonial</h4>
-                    <h1 class="display-5 mb-5 text-dark">Our Client Saying!</h1>
+                                    $ratings = min(max(0, (int)$ratings), $max_stars);
 
-                    <button class="btn btn-outline-primary"><a href="<?php echo get_the_permalink(112);?>" class="nav-item nav-link">Submit your Review</a></button>
+                                    for ($i = 0; $i < $ratings; $i++) {
+                                        echo '<i class="fas fa-star text-primary"></i>';
+                                    }
 
-                </div>
-                <div class="owl-carousel testimonial-carousel">
-                <?php if (have_comments()) { ?>
-                    <?php 
-                    foreach (get_comments() as $comment): ?>
-                        <div class="testimonial-item img-border-radius bg-light rounded p-4">
-                            <div class="position-relative">
-                                <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
-                                <div class="mb-4 pb-4 border-bottom border-secondary">
-                                    <p class="mb-0"><?php echo esc_html($comment->comment_content); ?></p>
-                                </div>
-                                <div class="d-flex align-items-center flex-nowrap">
-                                    <div class="bg-secondary rounded">
-                                        <img src="img/testimonial-1.jpg" class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
-                                    </div>
-                                    <div class="ms-4 d-block">
-                                        <h4 class="text-dark"><?php echo esc_html($comment->comment_author); ?></h4>
-                                        <p class="m-0 pb-3"><?php echo esc_html(get_user_meta($comment->user_id, 'occupation', true)); ?></p>
-                                        <div class="d-flex pe-5">
-                                            <?php 
-                                            // Get the rating meta data
-                                            $rating = get_comment_meta($comment->comment_ID, 'rating', true);
-                                            for ($i = 1; $i <= 5; $i++) {
-                                                if ($i <= $rating) {
-                                                    echo '<i class="fas fa-star text-primary"></i>';
-                                                } else {
-                                                    echo '<i class="fas fa-star"></i>';
-                                                }
-                                            }
-                                            ?>
-                                        </div>
-                                    </div>
-                                </div>
+                                    for ($i = $ratings; $i < $max_stars; $i++) {
+                                        echo '<i class="fas fa-star"></i>';
+                                    }
+                                ?>
                             </div>
                         </div>
-                    <?php endforeach; ?>
-                <?php } else { ?>
-                    <p>No testimonials found.</p>
-                <?php } ?>
+                    </div>
+                </div>
             </div>
-
-            </div>
+            <?php    
+                endwhile;
+                wp_reset_postdata();
+            ?>
         </div>
-        <!-- Tastimonial End -->
+    </div>
+</div>
+<!-- Testimonial End -->
+
 <?php get_footer(); ?>

@@ -91,8 +91,14 @@ get_header();
                                             <ul class="list-unstyled fruite-categorie">
                                                 <li>
                                                 <?php 
+                                                    // Initialize counters
+                                                    $fruit_post_count = 0;
+                                                    $vegetable_post_count = 0;
+                                                    $bread_post_count = 0;
+                                                    $meat_post_count = 0;
+
                                                     $args = array(  
-                                                        'post_type' => ['fruit','vegetable','bread','meat'],
+                                                        'post_type' => ['product'],
                                                         'post_status' => 'publish',
                                                         'posts_per_page' => -1, 
                                                         'orderby'   => [
@@ -102,26 +108,38 @@ get_header();
                                                         'order' => 'ASC', 
                                                     );
 
-                                                    $query = new WP_Query( $args );
+                                                    $query = new WP_Query($args);
+
                                                     foreach ($query->posts as $post) {
-                                                      if ($post->post_type === 'fruit') {
-                                                        global $fruit_post_count;
-                                                        $fruit_post_count++;
-                                                      }
-                                                      if ($post->post_type === 'vegetable') {
-                                                        global $vegetable_post_count;
-                                                        $vegetable_post_count++;
-                                                      }
-                                                      if ($post->post_type === 'bread') {
-                                                        global $bread_post_count;
-                                                        $bread_post_count++;
-                                                      }
-                                                      if ($post->post_type === 'meat') {
-                                                        global $meat_post_count;
-                                                        $meat_post_count++;
-                                                      }
+                                                        $terms = get_the_terms($post->ID, 'product category');
+                                                        if ($terms && !is_wp_error($terms)) {
+                                                            foreach ($terms as $term) {
+                                                                switch ($term->slug) {
+                                                                    case 'fruit':
+                                                                        $fruit_post_count++;
+                                                                        break;
+                                                                    case 'vegetable':
+                                                                        $vegetable_post_count++;
+                                                                        break;
+                                                                    case 'bread':
+                                                                        $bread_post_count++;
+                                                                        break;
+                                                                    case 'meat':
+                                                                        $meat_post_count++;
+                                                                        break;
+                                                                    default:
+                                                                        // Handle unexpected terms if necessary
+                                                                        break;
+                                                                }
+                                                            }
+                                                        } else {
+                                                            // Debugging output to ensure terms are fetched correctly
+                                                            echo 'No terms found for post ID: ' . $post->ID . '<br>';
+                                                        }
                                                     }
+
                                                 ?>
+
                                                     <div class="d-flex justify-content-between fruite-name">
                                                         <a href="#"><i class="fas fa-apple-alt me-2"></i>Fruits</a>
                                                         <span>
@@ -274,7 +292,7 @@ get_header();
                                 <?php 
                                     $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
                                     $args = array(  
-                                        'post_type' => ['fruit','vegetable','bread','meat'],
+                                        'post_type' => ['product'],
                                         'post_status' => 'publish',
                                         'posts_per_page' => 2, 
                                         'orderby'   => [
@@ -295,8 +313,17 @@ get_header();
                                                 <img src="<?php the_post_thumbnail_url('thumbnail')?>" class="img-fluid w-100 rounded-top" alt="">
                                             </div>
                                             <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
-                                            <?php 
-                                                echo get_post_type( get_the_ID() );
+                                            <?php                                                         
+                                                $terms = get_the_terms(get_the_ID(), 'product category');
+                                                if ($terms && !is_wp_error($terms)) {
+                                                    $term_names = array();
+                                                    foreach ($terms as $term) {
+                                                        $term_names[] = $term->name;
+                                                    }
+                                                    echo implode(', ', $term_names);
+                                                } else {
+                                                    echo 'Uncategorized';
+                                                }                                                       
                                             ?></div>
                                             <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                                                 <h4><?php the_title() ?></h4>

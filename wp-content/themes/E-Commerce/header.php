@@ -75,7 +75,6 @@ global $current_user;
                             <!---MENUS--->
                             <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="nav-item nav-link">Home</a>
                             <a href="<?php echo get_the_permalink(94);?>" class="nav-item nav-link">Shop</a>
-                            <a href="shop-detail.html" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">

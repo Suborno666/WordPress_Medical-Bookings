@@ -11,6 +11,7 @@ function e_commerce_theme_support(){
 
     // Add thumbnails for posts
     add_theme_support('post-thumbnails');
+    
 }
 
 add_action('after_setup_theme','e_commerce_theme_support');
@@ -170,151 +171,11 @@ function e_commerce_user_update(){
 add_action('wp_ajax_nopriv_update_user','e_commerce_user_update');
 add_action('wp_ajax_update_user','e_commerce_user_update');
 
- 
-
-//Adding Post Content of Fruit
-
-// Our custom post type function
-function e_commerce_create_posttype_fruit() {
-    $supports = 
-    [
-        'title', // post title
-        'editor', // post content
-        'thumbnail', // post thumbnail
-        'excerpt', // post excerpt
-        'revisions'// post revision
-    ];
-
-    register_post_type( 'fruit',
-        array(
-
-            'labels' => [
-                'name' => __( 'Fruits' ),
-                'singular_name' => __( 'Fruit' ),
-                'add_new' => _x('Add Fruit', 'add fruit'),
-                'add_new_item' => __('Add New Fruits'),
-                'new_item' => __('New Fruits'),
-            
-            ],
-            'supports'=>$supports,
-            'public' => true,
-            'has_archive' => true,
-            'rewrite' => array('slug' => 'fruit'),
-            'show_in_rest' => true,
-  
-        )
-    );
-}
-// Hooking up our function to theme setup
-add_action( 'init', 'e_commerce_create_posttype_fruit' );
-
-// Our custom post type function
-function e_commerce_create_posttype_vegetable() {
-    $supports = 
-    [
-        'title', // post title
-        'editor', // post content
-        'thumbnail', // post thumbnail
-        'excerpt', // post excerpt
-        'revisions'// post revision
-    ];
-
-    register_post_type( 'vegetable',
-        array(
-
-            'labels' => [
-                'name' => __( 'Vegetables' ),
-                'singular_name' => __( 'Vegetable' ),
-                'add_new' => _x('Add Vegetable', 'add vegetable'),
-                'add_new_item' => __('Add New Vegetables'),
-                'new_item' => __('New Vegetables'),
-            
-            ],
-            'supports'=>$supports,
-            'public' => true,
-            'has_archive' => true,
-            'rewrite' => ['slug' => 'vegetable'],
-            'show_in_rest' => true,
-  
-        )
-    );
-}
-// Hooking up our function to theme setup
-add_action( 'init', 'e_commerce_create_posttype_vegetable' );
-
-// Our custom post type function
-function e_commerce_create_posttype_bread() {
-    $supports = 
-    [
-        'title', // post title
-        'editor', // post content
-        'thumbnail', // post thumbnail
-        'excerpt', // post excerpt
-        'revisions'// post revision
-    ];
-
-    register_post_type( 'bread',
-        array(
-
-            'labels' => [
-                'name' => __( 'Breads' ),
-                'singular_name' => __( 'Bread' ),
-                'add_new' => _x('Add Bread', 'add bread'),
-                'add_new_i tem' => __('Add New Breads'),
-                'new_item' => __('New Breads'),
-            
-            ],
-            'supports'=>$supports,
-            'public' => true,
-            'has_archive' => true,
-            'rewrite' => ['slug' => 'bread'],
-            'show_in_rest' => true,
-  
-        )
-    );
-}
-// Hooking up our function to theme setup
-add_action( 'init', 'e_commerce_create_posttype_bread' );
-
-// Our custom post type function
-function e_commerce_create_posttype_meat() {
-    $supports = 
-    [
-        'title', // post title
-        'editor', // post content
-        'thumbnail', // post thumbnail
-        'excerpt', // post excerpt
-        'revisions'// post revision
-    ];
-
-    register_post_type( 'meat',
-        array(
-
-            'labels' => [
-                'name' => __( 'Meats' ),
-                'singular_name' => __( 'Meat' ),
-                'add_new' => _x('Add Meat', 'add meat'),
-                'add_new_item' => __('Add New Meats'),
-                'new_item' => __('New Meats'),
-            
-            ],
-            'supports'=>$supports,
-            'public' => true,
-            'has_archive' => true,
-            'rewrite' => ['slug' => 'meat'],
-            'show_in_rest' => true,
-  
-        )
-    );
-}
-// Hooking up our function to theme setup
-add_action( 'init', 'e_commerce_create_posttype_meat' );
-
 /**
 * Register Metabox
 */
 function prefix_add_meta_box(){
-    $post_types = ['fruit','vegetable','bread','meat'];
+    $post_types = ['product'];
 	add_meta_box( 'unique_mb_id', __( 'Metabox Title','text-domain' ),'prefix_mb_callback', $post_types );
 }
 add_action('add_meta_boxes', 'prefix_add_meta_box' );
@@ -324,8 +185,24 @@ add_action('add_meta_boxes', 'prefix_add_meta_box' );
 */
 function prefix_mb_callback($post_id){
     global $post; ?>
+
 	<label for="mb_id"><?php echo esc_html('Price: ','text-domain'); ?></label>
-	<input type="text" class="regular-text" value="<?php echo get_post_meta($post->ID,'unique_mb_id',true); ?>" name="unique_mb_id" id="mb_id">
+	<input type="text" class="regular-text" value="<?php echo get_post_meta($post->ID,'unique_mb_id',true); ?>" name="unique_mb_id" id="mb_id"><br><br>
+
+    <label for="mb_id"><?php echo esc_html('Weight: ','text-domain'); ?></label>
+	<input type="text" class="regular-text" value="<?php echo get_post_meta($post->ID,'unique_mb_id',true); ?>" name="unique_mb_id" id="mb_id"><br><br>
+
+    <label for="mb_id"><?php echo esc_html('Country of Origin: ','text-domain'); ?></label>
+	<input type="text" class="regular-text" value="<?php echo get_post_meta($post->ID,'unique_mb_id',true); ?>" name="unique_mb_id" id="mb_id"><br><br>
+
+    <label for="mb_id"><?php echo esc_html('Quality: ','text-domain'); ?></label>
+	<input type="text" class="regular-text" value="<?php echo get_post_meta($post->ID,'unique_mb_id',true); ?>" name="unique_mb_id" id="mb_id"><br><br>
+
+    <label for="mb_id"><?php echo esc_html('Check: ','text-domain'); ?></label>
+	<input type="text" class="regular-text" value="<?php echo get_post_meta($post->ID,'unique_mb_id',true); ?>" name="unique_mb_id" id="mb_id"><br><br>
+
+    <label for="mb_id"><?php echo esc_html('Min Weight: ','text-domain'); ?></label>
+	<input type="text" class="regular-text" value="<?php echo get_post_meta($post->ID,'unique_mb_id',true); ?>" name="unique_mb_id" id="mb_id"><br><br>
 <?php }
 
 
@@ -427,30 +304,146 @@ function save_custom_image_meta($post_id) {
 }
 add_action('save_post', 'save_custom_image_meta');
 
-function e_commerce_user_testimonials(){
-    $supports = [
-        'thumbnail',
-        'excerpt',
+// function e_commerce_user_testimonials(){
+//     $supports = [
+//         'title',
+//         'thumbnail',
+//         'editor',
+//         'revisions'
+//     ];
+//     register_post_type('testimonials',[
+//             'labels'=>[
+//                 'name'=>__('Testimonials'),
+//                 'singular_name'=>__('Testimonial'),
+//                 'add_new'=>_x('Add Testimonials','add Testimonial'),
+//                 'add_new_item'=>__('Add New Testimonials'),
+//                 'new_item'=>__('New Testimonials')
+//             ],
+//             'supports'=>$supports,
+//             'public'=>true,
+//             'has_archive'=>true,
+//             'rewrite'=>['slug'=>'testimonial'],
+//             'show_in_rest'=>true
+//         ]
+//     );
+// }
+
+// add_action('init','e_commerce_user_testimonials');
+
+
+/**
+ * Register Testimonials Metabox
+ */
+function e_commerce_create_testimonials_meta_box(){
+    $post_type = 'testimonials';
+    add_meta_box('unique_tm_id',__('Metabox Title','text-domain'),'tm_callback',$post_type);
+}
+add_action('add_meta_boxes','e_commerce_create_testimonials_meta_box');
+
+/**
+ * Testimonials Callback Function
+ */
+function tm_callback($post_id){
+    global $post;
+    ?>
+    <h1><?php print_r($_POST); ?></h1>
+    <label for="tm_email_id"><?php echo esc_html('Email:','text-domain');?></label>
+    <input type="text" class="regular-text" value="<?php echo wp_get_current_user()->user_email?>" name="unique_tm_email" id="tm_email_id"><br><br>
+    
+    <label for="tm_ratings"><?php echo esc_html('Ratings (Out of 5):','text-domain');?></label>
+    <input type="text" class="regular-text" value="<?php echo get_post_meta($post->ID,'unique_tm_ratings',true); ?>" name="unique_tm_ratings" id="tm_ratings"><br><br>
+
+    <label for="tm_profession"><?php echo esc_html('Profession:','text-domain');?></label>
+    <input type="text" class="regular-text" value="<?php echo get_post_meta($post->ID,'unique_tm_profession',true); ?>" name="unique_tm_profession" id="tm_profession">
+
+<?php }
+
+/**
+ * Save Testimonials Metabox
+ */
+function tm_save_meta_data($post_id){
+    if(isset($_POST['unique_tm_email'])){
+        $meta_value = sanitize_email($_POST['unique_tm_email']);
+        update_post_meta($post_id,'unique_tm_email',$meta_value);
+    }
+    if(isset($_POST['unique_tm_ratings'])){
+        $meta_value = $_POST['unique_tm_ratings'];
+        update_post_meta($post_id,'unique_tm_ratings',$meta_value);
+    }
+    if(isset($_POST['unique_tm_profession'])){
+        $meta_value = $_POST['unique_tm_profession'];
+        update_post_meta($post_id,'unique_tm_profession',$meta_value);
+    }
+}
+add_action('save_post','tm_save_meta_data');
+
+/*****************************Add Custom Taxonomy***************************************/
+function add_custom_taxonomies() {
+    // Add new "Locations" taxonomy to Products
+    register_taxonomy('product category', 'product', array(
+        // Hierarchical taxonomy (like categories)
+        'hierarchical' => true,
+        // This array of options controls the labels displayed in the WordPress Admin UI
+        'labels' => [
+            'name' => _x('Product Categories', 'taxonomy general name'),
+            'singular_name' => _x('Product Category', 'taxonomy singular name'),
+            'search_items' => __('Search Product Categories'),
+            'all_items' => __('All Product Categories'),
+            'parent_item' => __('Parent Product Category'),
+            'parent_item_colon' => __('Parent Product Category:'),
+            'edit_item' => __('Edit Product Category'),
+            'update_item' => __('Update Product Category'),
+            'add_new_item' => __('Add New Product Category'),
+            'new_item_name' => __('New Product Category Name'),
+            'menu_name' => __('Product Category'),
+        ],
+        // Control the slugs used for this taxonomy
+        'rewrite' => [
+            'slug' => 'locations', // This controls the base slug that will display before each term
+            'with_front' => false, // Don't display the category base before "/locations/"
+            'hierarchical' => true // This will allow URLs like "/locations/boston/cambridge/"
+        ],
+    ));
+}
+add_action('init', 'add_custom_taxonomies', 0);
+
+   
+// Our custom post type function
+function e_commerce_create_posttype_product() {
+    $supports = 
+    [
+        'title', 
         'editor',
+        'thumbnail', 
+        'excerpt', 
         'revisions'
     ];
-    register_post_type('Testimonials',[
-            'labels'=>[
-                'name'=>__('Testimonials'),
-                'singular_name'=>__('Testimonial'),
-                'add_new'=>_x('Add Testimonials','add Testimonial'),
-                'add_new_item'=>__('Add New Testimonials'),
-                'new_item'=>__('New Testimonials')
+
+    register_post_type( 'product',
+        [
+
+            'labels' => [
+                'name' => __( 'Products' ),
+                'singular_name' => __( 'Product' ),
+                'add_new' => _x('Add Product', 'add product'),
+                'add_new_item' => __('Add New Products'),
+                'new_item' => __('New Products'),
+            
             ],
             'supports'=>$supports,
-            'public'=>true,
-            'has_archive'=>true,
-            'rewrite'=>['slug'=>'testimonial'],
-            'show_in_rest'=>true
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => 
+            [
+                'slug' => 'products', 
+                'with_front' => false, 
+                'hierarchical' => false
+            ],
+            'show_in_rest' => true,
+  
         ]
     );
 }
-
-add_action('init','e_commerce_user_testimonials')
-
+// Hooking up our function to theme setup
+add_action( 'init', 'e_commerce_create_posttype_product' );
 ?>
