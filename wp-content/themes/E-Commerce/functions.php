@@ -175,8 +175,8 @@ add_action('wp_ajax_update_user','e_commerce_user_update');
 * Register Metabox
 */
 function prefix_add_meta_box(){
-    $post_types = ['product'];
-	add_meta_box( 'unique_mb_id', __( 'Metabox Title','text-domain' ),'prefix_mb_callback', $post_types );
+    $post_types = 'product';
+	add_meta_box( 'unique_mb_price_id', __( 'Metabox Title','text-domain' ),'prefix_mb_callback', $post_types );
 }
 add_action('add_meta_boxes', 'prefix_add_meta_box' );
 	
@@ -184,25 +184,27 @@ add_action('add_meta_boxes', 'prefix_add_meta_box' );
 * Meta field callback function
 */
 function prefix_mb_callback($post_id){
-    global $post; ?>
+    global $post; 
+    
+    $IDs=
+    [
+        'Price: '=>['mb_price_id','unique_mb_price_id'],
+        'Weight: '=>['mb_weight-id','unique_mb_weight_id'],
+        'Country of Origin: '=>['mb_origin_id','unique_mb_origin_id'],
+        'Quality: '=>['mb_quality_id','unique_mb_quality_id'],
+        'Check: '=>['mb_check_id','unique_mb_check_id'],
+        'Min Weight: '=>['mb_minWeight_id','unique_mb_minWeight_id'],
+        
+    ];
+    
+    foreach($IDs as $key=>$values){
+        ?>
+        <label for="<?php echo $values[0]?>"><?php echo esc_html($key,'text-domain'); ?></label>
+        <input type="text" class="regular-text" value="<?php echo get_post_meta($post->ID,$values[1],true); ?>" name="<?php echo $values[1]?>" id="<?php echo $values[0]?>"><br><br>
 
-	<label for="mb_id"><?php echo esc_html('Price: ','text-domain'); ?></label>
-	<input type="text" class="regular-text" value="<?php echo get_post_meta($post->ID,'unique_mb_id',true); ?>" name="unique_mb_id" id="mb_id"><br><br>
-
-    <label for="mb_id"><?php echo esc_html('Weight: ','text-domain'); ?></label>
-	<input type="text" class="regular-text" value="<?php echo get_post_meta($post->ID,'unique_mb_id',true); ?>" name="unique_mb_id" id="mb_id"><br><br>
-
-    <label for="mb_id"><?php echo esc_html('Country of Origin: ','text-domain'); ?></label>
-	<input type="text" class="regular-text" value="<?php echo get_post_meta($post->ID,'unique_mb_id',true); ?>" name="unique_mb_id" id="mb_id"><br><br>
-
-    <label for="mb_id"><?php echo esc_html('Quality: ','text-domain'); ?></label>
-	<input type="text" class="regular-text" value="<?php echo get_post_meta($post->ID,'unique_mb_id',true); ?>" name="unique_mb_id" id="mb_id"><br><br>
-
-    <label for="mb_id"><?php echo esc_html('Check: ','text-domain'); ?></label>
-	<input type="text" class="regular-text" value="<?php echo get_post_meta($post->ID,'unique_mb_id',true); ?>" name="unique_mb_id" id="mb_id"><br><br>
-
-    <label for="mb_id"><?php echo esc_html('Min Weight: ','text-domain'); ?></label>
-	<input type="text" class="regular-text" value="<?php echo get_post_meta($post->ID,'unique_mb_id',true); ?>" name="unique_mb_id" id="mb_id"><br><br>
+    <?php
+    }
+    ?>
 <?php }
 
 
@@ -211,13 +213,24 @@ function prefix_mb_callback($post_id){
 */
 function prefix_save_meta_data( $post_id ){
 
-    if ( isset( $_POST['unique_mb_id'] ) ) {       
-      
-        $meta_value = sanitize_text_field( $_POST['unique_mb_id'] );
-        update_post_meta( $post_id, 'unique_mb_id', $meta_value );
+    $meta_values = 
+    [
+        'unique_mb_price_id',
+        'unique_mb_weight_id',
+        'unique_mb_origin_id',
+        'unique_mb_quality_id',
+        'unique_mb_check_id',
+        'unique_mb_minWeight_id'
+    ];
 
+    foreach ($meta_values as $values){
+        if ( isset( $_POST[$values] ) ) {        
+            $meta_value = sanitize_text_field( $_POST[$values] );
+            update_post_meta( $post_id, $values, $meta_value );
+        } 
     }
-  }
+    
+}
 add_action( 'save_post', 'prefix_save_meta_data' );
 
 // In your theme's functions.php or any other theme file
@@ -346,7 +359,6 @@ add_action('add_meta_boxes','e_commerce_create_testimonials_meta_box');
 function tm_callback($post_id){
     global $post;
     ?>
-    <h1><?php print_r($_POST); ?></h1>
     <label for="tm_email_id"><?php echo esc_html('Email:','text-domain');?></label>
     <input type="text" class="regular-text" value="<?php echo wp_get_current_user()->user_email?>" name="unique_tm_email" id="tm_email_id"><br><br>
     
@@ -356,7 +368,8 @@ function tm_callback($post_id){
     <label for="tm_profession"><?php echo esc_html('Profession:','text-domain');?></label>
     <input type="text" class="regular-text" value="<?php echo get_post_meta($post->ID,'unique_tm_profession',true); ?>" name="unique_tm_profession" id="tm_profession">
 
-<?php }
+<?php 
+}
 
 /**
  * Save Testimonials Metabox
@@ -446,4 +459,32 @@ function e_commerce_create_posttype_product() {
 }
 // Hooking up our function to theme setup
 add_action( 'init', 'e_commerce_create_posttype_product' );
+
+/**
+ * Enabling Comments
+ */
+
+// Enable comments for all existing posts
+function switch_on_comments_automatically() {
+    global $wpdb;
+    $wpdb->query("UPDATE $wpdb->posts SET comment_status = 'open' WHERE post_status = 'publish'");
+}
+add_action('init', 'switch_on_comments_automatically');
+
+// Enable comments for new posts
+function enable_comments_for_new_posts($data, $postarr) {
+    if ($data['post_status'] == 'publish' && $data['comment_status'] != 'open') {
+        $data['comment_status'] = 'open';
+    }
+    return $data;
+}
+add_filter('wp_insert_post_data', 'enable_comments_for_new_posts', 10, 2);
+
+// Set default comment status to 'open'
+function set_default_comment_status() {
+    return 'open';
+}
+add_filter('default_comment_status', 'set_default_comment_status');
+
+// add_action('after_setup_theme','switch_on_comments_automatically') 
 ?>

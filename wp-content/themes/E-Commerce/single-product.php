@@ -44,12 +44,12 @@ get_header();
                                 if (have_posts()) {
                                     while (have_posts()) {
                                         the_post();
-                                        echo '<p>single-product.php is being used</p>';
+                                        // echo '<p>single-product.php is being used</p>';
                             ?>
                             <div class="col-lg-6">
                                 <div class="border rounded">
                                     <a href="#">
-                                        <img src="img/single-item.jpg" class="img-fluid rounded" alt="Image">
+                                        <img src="<?php the_post_thumbnail_url('thumbnail'); ?>" class="img-fluid rounded" alt="Image">
                                     </a>
                                 </div>
                             </div>
@@ -67,13 +67,13 @@ get_header();
                                             foreach ($terms as $term) {
                                                 $term_names[] = $term->name;
                                             }
-                                            echo implode(', ', $term_names);
+                                            echo "<b>".implode(', ', $term_names)."</b>";
                                         } else {
                                             echo 'Uncategorized';
                                         }
                                     ?>
                                 </p>
-                                <h5 class="fw-bold mb-3"><?php echo 'Rs '.get_post_meta(get_the_ID(),'unique_mb_id',true).'/ kg'?></h5>
+                                <h5 class="fw-bold mb-3"><?php echo get_post_meta(get_the_ID(),'unique_mb_price_id',true).'/ kg'?></h5>
                                 <div class="d-flex mb-4">
                                     <i class="fa fa-star text-secondary"></i>
                                     <i class="fa fa-star text-secondary"></i>
@@ -125,7 +125,7 @@ get_header();
                                                             <p class="mb-0">Weight</p>
                                                         </div>
                                                         <div class="col-6">
-                                                            <p class="mb-0">1 kg</p>
+                                                            <p class="mb-0"><?php echo get_post_meta(get_the_ID(),'unique_mb_weight_id',true);?></p>
                                                         </div>
                                                     </div>
                                                     <div class="row text-center align-items-center justify-content-center py-2">
@@ -133,7 +133,7 @@ get_header();
                                                             <p class="mb-0">Country of Origin</p>
                                                         </div>
                                                         <div class="col-6">
-                                                            <p class="mb-0">Agro Farm</p>
+                                                            <p class="mb-0"><?php echo get_post_meta(get_the_ID(),'unique_mb_origin_id',true);?></p>
                                                         </div>
                                                     </div>
                                                     <div class="row bg-light text-center align-items-center justify-content-center py-2">
@@ -141,7 +141,7 @@ get_header();
                                                             <p class="mb-0">Quality</p>
                                                         </div>
                                                         <div class="col-6">
-                                                            <p class="mb-0">Organic</p>
+                                                            <p class="mb-0"><?php echo get_post_meta(get_the_ID(),'unique_mb_quality_id',true)?></p>
                                                         </div>
                                                     </div>
                                                     <div class="row text-center align-items-center justify-content-center py-2">
@@ -149,7 +149,7 @@ get_header();
                                                             <p class="mb-0">Сheck</p>
                                                         </div>
                                                         <div class="col-6">
-                                                            <p class="mb-0">Healthy</p>
+                                                            <p class="mb-0"><?php echo get_post_meta(get_the_ID(),'unique_mb_check_id',true)?></p>
                                                         </div>
                                                     </div>
                                                     <div class="row bg-light text-center align-items-center justify-content-center py-2">
@@ -157,94 +157,14 @@ get_header();
                                                             <p class="mb-0">Min Weight</p>
                                                         </div>
                                                         <div class="col-6">
-                                                            <p class="mb-0">250 Kg</p>
+                                                            <p class="mb-0"><?php echo get_post_meta(get_the_ID(),'unique_mb_minWeight_id',true)?></p>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
-                                        <div class="d-flex">
-                                            <img src="img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
-                                            <div class="">
-                                                <p class="mb-2" style="font-size: 14px;">April 12, 2024</p>
-                                                <div class="d-flex justify-content-between">
-                                                    <h5>Jason Smith</h5>
-                                                    <div class="d-flex mb-3">
-                                                        <i class="fa fa-star text-secondary"></i>
-                                                        <i class="fa fa-star text-secondary"></i>
-                                                        <i class="fa fa-star text-secondary"></i>
-                                                        <i class="fa fa-star text-secondary"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </div>
-                                                </div>
-                                                <p>The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic 
-                                                    words etc. Susp endisse ultricies nisi vel quam suscipit </p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex">
-                                            <img src="img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
-                                            <div class="">
-                                                <p class="mb-2" style="font-size: 14px;">April 12, 2024</p>
-                                                <div class="d-flex justify-content-between">
-                                                    <h5>Sam Peters</h5>
-                                                    <div class="d-flex mb-3">
-                                                        <i class="fa fa-star text-secondary"></i>
-                                                        <i class="fa fa-star text-secondary"></i>
-                                                        <i class="fa fa-star text-secondary"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </div>
-                                                </div>
-                                                <p class="text-dark">The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic 
-                                                    words etc. Susp endisse ultricies nisi vel quam suscipit </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane" id="nav-vision" role="tabpanel">
-                                        <p class="text-dark">Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor sit. Aliqu diam
-                                            amet diam et eos labore. 3</p>
-                                        <p class="mb-0">Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore.
-                                            Clita erat ipsum et lorem et sit</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <form action="#">
-                                <h4 class="mb-5 fw-bold">Leave a Reply</h4>
-                                <div class="row g-4">
-                                    <div class="col-lg-6">
-                                        <div class="border-bottom rounded">
-                                            <input type="text" class="form-control border-0 me-4" placeholder="Yur Name *">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="border-bottom rounded">
-                                            <input type="email" class="form-control border-0" placeholder="Your Email *">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="border-bottom rounded my-4">
-                                            <textarea name="" id="" class="form-control border-0" cols="30" rows="8" placeholder="Your Review *" spellcheck="false"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="d-flex justify-content-between py-3 mb-5">
-                                            <div class="d-flex align-items-center">
-                                                <p class="mb-0 me-3">Please rate:</p>
-                                                <div class="d-flex align-items-center" style="font-size: 12px;">
-                                                    <i class="fa fa-star text-muted"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                            </div>
-                                            <a href="#" class="btn border border-secondary text-primary rounded-pill px-4 py-3"> Post Comment</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+                                    <?php comments_template(); ?>
                             <?php
                                 }
                             } else {
@@ -262,38 +182,98 @@ get_header();
                                 </div>
                                 <div class="mb-4">
                                     <h4>Categories</h4>
-                                    <ul class="list-unstyled fruite-categorie">
-                                        <li>
-                                            <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>Apples</a>
-                                                <span>(3)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>Oranges</a>
-                                                <span>(5)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>Strawbery</a>
-                                                <span>(2)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>Banana</a>
-                                                <span>(8)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>Pumpkin</a>
-                                                <span>(5)</span>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                        <ul class="list-unstyled fruite-categorie">
+                                            <li>
+                                                <?php 
+                                                    // Initialize counters
+                                                    $fruit_post_count = 0;
+                                                    $vegetable_post_count = 0;
+                                                    $bread_post_count = 0;
+                                                    $meat_post_count = 0;
+
+                                                    $args = array(  
+                                                        'post_type' => ['product'],
+                                                        'post_status' => 'publish',
+                                                        'posts_per_page' => -1, 
+                                                        'orderby'   => [
+                                                            'date' =>'DESC',
+                                                            'menu_order'=>'ASC',
+                                                        ],
+                                                        'order' => 'ASC', 
+                                                    );
+
+                                                    $query = new WP_Query($args);
+
+                                                    foreach ($query->posts as $post) {
+                                                        $terms = get_the_terms($post->ID, 'product category');
+                                                        if ($terms && !is_wp_error($terms)) {
+                                                            foreach ($terms as $term) {
+                                                                switch ($term->slug) {
+                                                                    case 'fruit':
+                                                                        $fruit_post_count++;
+                                                                        break;
+                                                                    case 'vegetable':
+                                                                        $vegetable_post_count++;
+                                                                        break;
+                                                                    case 'bread':
+                                                                        $bread_post_count++;
+                                                                        break;
+                                                                    case 'meat':
+                                                                        $meat_post_count++;
+                                                                        break;
+                                                                    default:
+                                                                        // Handle unexpected terms if necessary
+                                                                        break;
+                                                                }
+                                                            }
+                                                        } else {
+                                                            // Debugging output to ensure terms are fetched correctly
+                                                            echo 'No terms found for post ID: ' . $post->ID . '<br>';
+                                                        }
+                                                    }
+
+                                                ?>
+
+                                                    <div class="d-flex justify-content-between fruite-name">
+                                                        <a href="#"><i class="fas fa-apple-alt me-2"></i>Fruits</a>
+                                                        <span>
+                                                            <?php 
+                                                            echo "(".$fruit_post_count.")";
+                                                            ?>
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="d-flex justify-content-between fruite-name">
+                                                        <a href="#"><i class="fas fa-apple-alt me-2"></i>Vegetables</a>
+                                                        <span>
+                                                            <?php 
+                                                            echo "(".$vegetable_post_count.")";
+                                                            ?>
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="d-flex justify-content-between fruite-name">
+                                                        <a href="#"><i class="fas fa-apple-alt me-2"></i>Bread</a>
+                                                        <span>
+                                                            <?php 
+                                                            echo "(".$bread_post_count.")";
+                                                            ?>
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            <li>
+                                                <div class="d-flex justify-content-between fruite-name">
+                                                    <a href="#"><i class="fas fa-apple-alt me-2"></i>Meat</a>
+                                                    <span>
+                                                        <?php 
+                                                        echo "(".$meat_post_count.")";
+                                                        ?>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        </ul>
                                 </div>
                             </div>
                             <div class="col-lg-12">

@@ -215,7 +215,7 @@
                                                         ?>
                                                         </div>
                                                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                            <h4><?php the_title(); ?></h4>
+                                                            <h4 ><a style="color:darkgoldenrod !important;" href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
                                                             <p><?php the_content(); ?></p>
                                                             <div class="d-flex justify-content-between flex-lg-wrap">
                                                                 <p class="text-dark fs-5 fw-bold mb-0"><?php echo 'Rs '.get_post_meta(get_the_ID(),'unique_mb_id',true).'/ kg'?></p>
