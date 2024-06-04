@@ -1,28 +1,33 @@
 <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
     <?php
     function my_custom_comments_callback($comment, $args, $depth) {
-        ?>
-        <div class="d-flex" id="comment-<?php comment_ID(); ?>">
-            <img src="<?php echo get_avatar_url($comment, ['size' => 100]); ?>" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
-            <div class="">
-                <p class="mb-2" style="font-size: 14px;"><?php echo get_comment_date(); ?></p>
-                <div class="d-flex justify-content-between">
-                    <h5><?php comment_author(); ?></h5>
-                    <div class="d-flex mb-3">
-                        <?php
-                        // Assuming the rating is stored in comment meta data
-                        $rating = get_comment_meta($comment->comment_ID, 'rating', true);
-                        for ($i = 1; $i <= 5; $i++) {
-                            echo '<i class="fa fa-star' . ($i <= $rating ? '' : ' text-secondary') . '"></i>';
-                        }
-                        ?>
-                    </div>
-                </div>
-                <p><?php comment_text(); ?></p>
+    $GLOBALS['comment'] = $comment; 
+    ?>
+    <div <?php comment_class('d-flex'); ?> id="comment-<?php comment_ID(); ?>">
+        <img src="<?php echo get_avatar_url($comment, ['size' => 100]); ?>" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
+        <div class="">
+            <p class="mb-2" style="font-size: 14px;"><?php echo get_comment_date(); ?></p>
+            <div class="d-flex justify-content-between">
+                <h5><?php comment_author(); ?></h5>
+
+            </div>
+            <p><?php comment_text(); ?></p>
+            <div class="reply">
+                <?php
+                comment_reply_link(array_merge($args, [
+                    'add_below' => 'comment',
+                    'depth' => $depth,
+                    'max_depth' => $args['max_depth'],
+                    'reply_text' => 'Reply'
+                ]));
+                ?>
             </div>
         </div>
+    </div>
     <?php
-    }
+}
+
+    
 
     if (!have_comments()) {
         ?>
@@ -69,6 +74,7 @@
             'fields' => apply_filters('comment_form_default_fields', $fields),
             'comment_field' => '<div class="col-lg-12"><div class="border-bottom rounded my-4"><textarea id="comment" name="comment" class="form-control border-0" cols="30" rows="8" placeholder="Your Review *" spellcheck="false" aria-required="true"></textarea></div></div>',
             'logged_in_as' => '<p class="logged-in-as">' . sprintf(__('Logged in as <a href="%1$s">%2$s</a>. <a href="%3$s" title="Log out of this account">Log out?</a>'), admin_url('profile.php'), $user_identity, wp_logout_url(apply_filters('the_permalink', get_permalink()))) . '</p>',
+            // ''=>,
             'title_reply' => '<h4 class="mb-5 fw-bold">Leave a Reply</h4>',
             'class_submit' => 'btn border border-secondary text-primary rounded-pill px-4 py-3',
             'label_submit' => __('Post Comment'),

@@ -409,120 +409,53 @@ get_header();
                 </div>
                 <h1 class="fw-bold mb-0">Related products</h1>
                 <div class="vesitable">
-                    <div class="owl-carousel vegetable-carousel justify-content-center">
-                        <div class="border border-primary rounded position-relative vesitable-item">
-                            <div class="vesitable-img">
-                                <img src="img/vegetable-item-6.jpg" class="img-fluid w-100 rounded-top" alt="">
-                            </div>
-                            <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">Vegetable</div>
-                            <div class="p-4 pb-0 rounded-bottom">
-                                <h4>Parsely</h4>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                    <p class="text-dark fs-5 fw-bold">$4.99 / kg</p>
-                                    <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                </div>
-                            </div>
+                <div class="owl-carousel vegetable-carousel justify-content-center">
+                    <?php
+                        $args = array(  
+                            'post_type' => ['product'],
+                            'post_status' => 'publish',
+                            'posts_per_page' => -1, 
+                            'orderby'   => [
+                                'date' =>'DESC',
+                                'menu_order'=>'ASC',
+                            ],
+                            'order' => 'ASC', 
+                        );
+                        $loop = new WP_Query($args);
+                        while($loop->have_posts()):$loop->the_post();
+                    ?>
+                    <div class="border border-primary rounded position-relative vesitable-item">
+                        <div class="vesitable-img">
+                            <img src="<?php the_post_thumbnail_url('thumbnail')?>" class="img-fluid w-100 rounded-top" alt="">
                         </div>
-                        <div class="border border-primary rounded position-relative vesitable-item">
-                            <div class="vesitable-img">
-                                <img src="img/vegetable-item-1.jpg" class="img-fluid w-100 rounded-top" alt="">
-                            </div>
-                            <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">Vegetable</div>
-                            <div class="p-4 pb-0 rounded-bottom">
-                                <h4>Parsely</h4>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                    <p class="text-dark fs-5 fw-bold">$4.99 / kg</p>
-                                    <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                </div>
-                            </div>
+                        <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">
+                        <?php 
+                            $terms = get_the_terms(get_the_ID(), 'product category');
+                            if ($terms && !is_wp_error($terms)) {
+                                $term_names = array();
+                                foreach ($terms as $term) {
+                                    $term_names[] = $term->name;
+                                }
+                                echo implode(', ', $term_names);
+                            } else {
+                                echo 'Uncategorized';
+                            }
+                        ?>
                         </div>
-                        <div class="border border-primary rounded position-relative vesitable-item">
-                            <div class="vesitable-img">
-                                <img src="img/vegetable-item-3.png" class="img-fluid w-100 rounded-top bg-light" alt="">
-                            </div>
-                            <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">Vegetable</div>
-                            <div class="p-4 pb-0 rounded-bottom">
-                                <h4>Banana</h4>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                    <p class="text-dark fs-5 fw-bold">$7.99 / kg</p>
-                                    <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border border-primary rounded position-relative vesitable-item">
-                            <div class="vesitable-img">
-                                <img src="img/vegetable-item-4.jpg" class="img-fluid w-100 rounded-top" alt="">
-                            </div>
-                            <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">Vegetable</div>
-                            <div class="p-4 pb-0 rounded-bottom">
-                                <h4>Bell Papper</h4>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                    <p class="text-dark fs-5 fw-bold">$7.99 / kg</p>
-                                    <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border border-primary rounded position-relative vesitable-item">
-                            <div class="vesitable-img">
-                                <img src="img/vegetable-item-5.jpg" class="img-fluid w-100 rounded-top" alt="">
-                            </div>
-                            <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">Vegetable</div>
-                            <div class="p-4 pb-0 rounded-bottom">
-                                <h4>Potatoes</h4>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                    <p class="text-dark fs-5 fw-bold">$7.99 / kg</p>
-                                    <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border border-primary rounded position-relative vesitable-item">
-                            <div class="vesitable-img">
-                                <img src="img/vegetable-item-6.jpg" class="img-fluid w-100 rounded-top" alt="">
-                            </div>
-                            <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">Vegetable</div>
-                            <div class="p-4 pb-0 rounded-bottom">
-                                <h4>Parsely</h4>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                    <p class="text-dark fs-5 fw-bold">$7.99 / kg</p>
-                                    <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border border-primary rounded position-relative vesitable-item">
-                            <div class="vesitable-img">
-                                <img src="img/vegetable-item-5.jpg" class="img-fluid w-100 rounded-top" alt="">
-                            </div>
-                            <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">Vegetable</div>
-                            <div class="p-4 pb-0 rounded-bottom">
-                                <h4>Potatoes</h4>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                    <p class="text-dark fs-5 fw-bold">$7.99 / kg</p>
-                                    <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border border-primary rounded position-relative vesitable-item">
-                            <div class="vesitable-img">
-                                <img src="img/vegetable-item-6.jpg" class="img-fluid w-100 rounded-top" alt="">
-                            </div>
-                            <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">Vegetable</div>
-                            <div class="p-4 pb-0 rounded-bottom">
-                                <h4>Parsely</h4>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                    <p class="text-dark fs-5 fw-bold">$7.99 / kg</p>
-                                    <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                </div>
+                        <div class="p-4 rounded-bottom">
+                            <h4><?php the_title(); ?></h4>
+                            <p><?php the_content(); ?></p>
+                            <div class="d-flex justify-content-between flex-lg-wrap">
+                                <p class="text-dark fs-5 fw-bold mb-0"><?php echo 'Rs '.get_post_meta(get_the_ID(),'unique_mb_id',true).'/kg'?></p>
+                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                             </div>
                         </div>
                     </div>
+                    <?php 
+                        endwhile;
+                        wp_reset_postdata();
+                    ?>
+                </div>
                 </div>
             </div>
         </div>
