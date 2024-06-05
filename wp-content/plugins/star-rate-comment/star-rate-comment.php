@@ -24,7 +24,6 @@ add_action('comment_form_logged_in_after', 'wpp_comment_rating_rating_field');
 add_action('comment_form_after_fields', 'wpp_comment_rating_rating_field');
 function wpp_comment_rating_rating_field()
 {
-    // Check if this is a reply
     $is_reply = isset($_GET['replytocom']) ? true : false;
 
     // Only display the rating field for top-level comments

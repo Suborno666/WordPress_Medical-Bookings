@@ -32,7 +32,6 @@
     if (!have_comments()) {
         ?>
         <div class="d-flex">
-            <img src="img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
             <div class="">
                 <p class="mb-2" style="font-size: 14px;">	
                     <?php echo date(get_option('date_format')); ?>

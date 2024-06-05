@@ -32,6 +32,28 @@ get_header();
             </ol>
         </div>
         <!-- Single Page Header End -->
+        <?php 
+            // Fetch top-level comments for the current post
+            $comments = get_comments(array(
+                'post_id' => get_the_ID(),
+                'status' => 'approve',
+                'parent' => 0  // This ensures only top-level comments are fetched
+            ));
+            $comment_count = count($comments);
+            $sum = 0;
+            foreach($comments as $comment){
+                $rating = get_comment_meta($comment->comment_ID,'rating',true);
+                $sum=$rating+$sum;
+            }
+            // echo $sum;
+            if ($comment_count == 0){
+                $avg = 0;
+            }else{
+                $average = $sum/$comment_count;
+                $avg = round($average);
+            }
+            update_post_meta(get_the_ID(),'post_rating',$avg);            
+        ?>
 
 
         <!-- Single Product Start -->
@@ -75,12 +97,21 @@ get_header();
                                 </p>
                                 <h5 class="fw-bold mb-3"><?php echo get_post_meta(get_the_ID(),'unique_mb_price_id',true).'/ kg'?></h5>
                                 <div class="d-flex mb-4">
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star"></i>
+                                    <?php
+                                    for ($i = 0; $i < 5; $i++) {
+                                        if ($i < $avg) {
+                                            echo '<i class="fa fa-star text-secondary"></i>';
+                                        }else if($avg == 0){
+                                            echo '<i class="fa fa-star"></i>';
+                                        } 
+                                        else{
+                                            echo '<i class="fa fa-star"></i>';
+                                        }
+                                        
+                                    }
+                                    ?>
                                 </div>
+
                                 <p class="mb-4">       
                                     <?php 
                                     the_excerpt(); 
@@ -446,7 +477,7 @@ get_header();
                             <h4><?php the_title(); ?></h4>
                             <p><?php the_content(); ?></p>
                             <div class="d-flex justify-content-between flex-lg-wrap">
-                                <p class="text-dark fs-5 fw-bold mb-0"><?php echo 'Rs '.get_post_meta(get_the_ID(),'unique_mb_id',true).'/kg'?></p>
+                                <p class="text-dark fs-5 fw-bold mb-0"><?php echo get_post_meta(get_the_ID(),'unique_mb_price_id',true).'/kg'?></p>
                                 <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                             </div>
                         </div>
@@ -465,20 +496,3 @@ get_header();
 
 get_footer();
 ?>
-
-
-
-
-
-<!-- //         <h1> -->
-
-<!-- //         </h1>
-//         <div> -->
-<!-- //             <img src="
-               <?php 
-//             the_post_thumbnail_url('full'); 
-//             ?>">
-//         </div>
-//         <div>
-
-//         </div>

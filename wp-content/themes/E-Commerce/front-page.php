@@ -218,7 +218,7 @@
                                                             <h4 ><a style="color:darkgoldenrod !important;" href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
                                                             <p><?php the_content(); ?></p>
                                                             <div class="d-flex justify-content-between flex-lg-wrap">
-                                                                <p class="text-dark fs-5 fw-bold mb-0"><?php echo 'Rs '.get_post_meta(get_the_ID(),'unique_mb_id',true).'/ kg'?></p>
+                                                                <p class="text-dark fs-5 fw-bold mb-0"><?php echo get_post_meta(get_the_ID(),'unique_mb_price_id',true).'/ kg'?></p>
                                                                 <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                                                             </div>
                                                         </div>
@@ -251,7 +251,7 @@
                                                     array(
                                                         'taxonomy' => 'product category',
                                                         'field'    => 'slug',
-                                                        'terms'    => 'vegetables',
+                                                        'terms'    => 'vegetable',
                                                     ),
                                                 ),
                                             );
@@ -278,10 +278,10 @@
                                                         ?>
                                                         </div>
                                                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                            <h4><?php the_title(); ?></h4>
+                                                        <h4 ><a style="color:darkgoldenrod !important;" href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
                                                             <p><?php the_content(); ?></p>
                                                             <div class="d-flex justify-content-between flex-lg-wrap">
-                                                                <p class="text-dark fs-5 fw-bold mb-0"><?php echo 'Rs '.get_post_meta(get_the_ID(),'unique_mb_id',true).'/ kg'?></p>
+                                                                <p class="text-dark fs-5 fw-bold mb-0"><?php echo get_post_meta(get_the_ID(),'unique_mb_price_id',true).'/ kg'?></p>
                                                                 <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                                                             </div>
                                                         </div>
@@ -341,10 +341,10 @@
                                                         ?>
                                                         </div>
                                                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                            <h4><?php the_title(); ?></h4>
+                                                        <h4 ><a style="color:darkgoldenrod !important;" href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
                                                             <p><?php the_content(); ?></p>
                                                             <div class="d-flex justify-content-between flex-lg-wrap">
-                                                                <p class="text-dark fs-5 fw-bold mb-0"><?php echo 'Rs '.get_post_meta(get_the_ID(),'unique_mb_id',true).'/ kg'?></p>
+                                                                <p class="text-dark fs-5 fw-bold mb-0"><?php echo get_post_meta(get_the_ID(),'unique_mb_price_id',true).'/ kg'?></p>
                                                                 <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                                                             </div>
                                                         </div>
@@ -404,10 +404,10 @@
                                                         ?>
                                                         </div>
                                                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                            <h4><?php the_title(); ?></h4>
+                                                        <h4 ><a style="color:darkgoldenrod !important;" href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
                                                             <p><?php the_content(); ?></p>
                                                             <div class="d-flex justify-content-between flex-lg-wrap">
-                                                                <p class="text-dark fs-5 fw-bold mb-0"><?php echo 'Rs '.get_post_meta(get_the_ID(),'unique_mb_id',true).'/ kg'?></p>
+                                                                <p class="text-dark fs-5 fw-bold mb-0"><?php echo get_post_meta(get_the_ID(),'unique_mb_price_id',true).'/ kg'?></p>
                                                                 <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                                                             </div>
                                                         </div>
@@ -467,10 +467,10 @@
                                                         ?>
                                                         </div>
                                                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                            <h4><?php the_title(); ?></h4>
+                                                        <h4 ><a style="color:darkgoldenrod !important;" href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
                                                             <p><?php the_content(); ?></p>
                                                             <div class="d-flex justify-content-between flex-lg-wrap">
-                                                                <p class="text-dark fs-5 fw-bold mb-0"><?php echo 'Rs '.get_post_meta(get_the_ID(),'unique_mb_id',true).'/ kg'?></p>
+                                                                <p class="text-dark fs-5 fw-bold mb-0"><?php echo get_post_meta(get_the_ID(),'unique_mb_price_id',true).'/ kg'?></p>
                                                                 <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                                                             </div>
                                                         </div>
@@ -582,7 +582,7 @@
                             <h4><?php the_title(); ?></h4>
                             <p><?php the_content(); ?></p>
                             <div class="d-flex justify-content-between flex-lg-wrap">
-                                <p class="text-dark fs-5 fw-bold mb-0"><?php echo 'Rs '.get_post_meta(get_the_ID(),'unique_mb_id',true).'/kg'?></p>
+                                <p class="text-dark fs-5 fw-bold mb-0"><?php echo get_post_meta(get_the_ID(),'unique_mb_price_id',true).'/kg'?></p>
                                 <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                             </div>
                         </div>
@@ -641,28 +641,52 @@
                     <p>Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.</p>
                 </div>
                 <div class="row g-4">
+                <?php 
+                    $args = [  
+                        'post_type' => ['product'],
+                        'post_status' => 'publish',
+                        'posts_per_page' => -1, 
+                        'order' => 'ASC', 
+                    ];
+                    $loop = new WP_Query($args);
+                    while ( $loop->have_posts() ) : 
+                    $loop->the_post(); 
+                ?>
                     <div class="col-lg-6 col-xl-4">
                         <div class="p-4 rounded bg-light">
                             <div class="row align-items-center">
                                 <div class="col-6">
-                                    <img src="<?php echo get_template_directory_uri().'/assets/images/best-product-1.jpg'?>" class="img-fluid rounded-circle w-100" alt="">
+                                    <img src="<?php the_post_thumbnail_url('thumbnail')?>" class="img-fluid rounded-circle w-100" alt="">
                                 </div>
                                 <div class="col-6">
-                                    <a href="#" class="h5">Organic Tomato</a>
+                                    <a href="#" class="h5"><?php the_title(); ?></a>
                                     <div class="d-flex my-3">
-                                        <i class="fas fa-star text-primary"></i>
-                                        <i class="fas fa-star text-primary"></i>
-                                        <i class="fas fa-star text-primary"></i>
-                                        <i class="fas fa-star text-primary"></i>
-                                        <i class="fas fa-star"></i>
+                                    <?php
+                                        $avg = get_post_meta(get_the_ID(),'post_rating',true);
+                                        for ($i = 0; $i < 5; $i++) {
+                                            if ($i < $avg) {
+                                                echo '<i class="fas fa-star text-primary"></i>';
+                                            }else if($avg == 0){
+                                                echo '<i class="fas fa-star"></i>';
+                                            } 
+                                            else{
+                                                echo '<i class="fas fa-star"></i>';
+                                            }
+                                            
+                                        }
+                                        ?>
                                     </div>
-                                    <h4 class="mb-3">3.12 $</h4>
+                                    <h4 class="mb-3"><?php echo get_post_meta(get_the_ID(),'unique_mb_price_id',true).'/ kg'?></h4>
                                     <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-xl-4">
+                <?php 
+                endwhile; 
+                wp_reset_postdata(); 
+                ?>
+                    <!-- <div class="col-lg-6 col-xl-4">
                         <div class="p-4 rounded bg-light">
                             <div class="row align-items-center">
                                 <div class="col-6">
@@ -766,12 +790,12 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-lg-6 col-xl-3">
+                    </div> -->
+                    <!-- <div class="col-md-6 col-lg-6 col-xl-3">
                         <div class="text-center">
                             <img src="<?php echo get_template_directory_uri().'/assets/images/fruit-item-1.jpg'?>" class="img-fluid rounded" alt="">
                             <div class="py-4">
-                                <a href="#" class="h5">Organic Tomato</a>
+                                <a href="#" class="h5">Organic Potato</a>
                                 <div class="d-flex my-3 justify-content-center">
                                     <i class="fas fa-star text-primary"></i>
                                     <i class="fas fa-star text-primary"></i>
@@ -834,7 +858,7 @@
                                 <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -881,73 +905,60 @@
         <!-- Fact Start -->
 
         
-        <!-- Testimonial Start -->
-<div class="container-fluid testimonial py-5">
-    <div class="container py-5">
-        <div class="testimonial-header text-center">
-            <h4 class="text-primary">Our Testimonial</h4>
-            <h1 class="display-5 mb-5 text-dark">Our Client Saying!</h1>
-        </div>
-        <button class="btn btn-outline-primary">
-            <a href="<?php echo get_the_permalink(112);?>" class="nav-item nav-link">Submit Review</a>
-        </button>
-        <div class="owl-carousel testimonial-carousel">
-            <?php
-                $args = [
-                    'post_type' => 'testimonials',
-                    'post_status' => 'publish',
-                    'posts_per_page' => -1,
-                    'orderby' => [
-                        'date' => 'DESC',
-                        'menu_order' => 'ASC'
-                    ],
-                    'order' => 'ASC',
-                ];
-                $loop = new WP_Query($args);
-                while($loop->have_posts()): $loop->the_post();
-            ?>
-            <div class="testimonial-item img-border-radius bg-light rounded p-4">
-                <div class="position-relative">
-                    <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
-                    <div class="mb-4 pb-4 border-bottom border-secondary">
-                        <p class="mb-0">
-                            <?php the_content(); ?>
-                        </p>
-                    </div>
-                    <div class="d-flex align-items-center flex-nowrap">
-                        <div class="bg-secondary rounded">
-                            <img src="<?php the_post_thumbnail_url('thumbnail');?>" class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
-                        </div>
-                        <div class="ms-4 d-block">
-                            <h4 class="text-dark"><?php the_title(); ?></h4>
-                            <p class="m-0 pb-3"><?php echo get_post_meta(get_the_ID(), 'unique_tm_profession', true); ?></p>
-                            <div class="d-flex pe-5">
-                                <?php
-                                    $ratings = get_post_meta(get_the_ID(), 'unique_tm_ratings', true);
-                                    $max_stars = 5;
-
-                                    $ratings = min(max(0, (int)$ratings), $max_stars);
-
-                                    for ($i = 0; $i < $ratings; $i++) {
-                                        echo '<i class="fas fa-star text-primary"></i>';
-                                    }
-
-                                    for ($i = $ratings; $i < $max_stars; $i++) {
-                                        echo '<i class="fas fa-star"></i>';
-                                    }
-                                ?>
+        <!-- Tastimonial Start -->
+        <div class="container-fluid testimonial py-5">
+            <div class="container py-5">
+                <div class="testimonial-header text-center">
+                    <h4 class="text-primary">Our Testimonial</h4>
+                    <h1 class="display-5 mb-5 text-dark">Our Client Saying!</h1>
+                </div>
+                <div class="owl-carousel testimonial-carousel">
+                    <?php 
+                    $args = [
+                        'status' => 'approve',
+                        'parent' => 0 
+                    ];
+                    // $comment_count = count(get_comments($args));
+                    // echo $comment_count;
+                    foreach(get_comments($args) as $comment):?>
+                    <div class="testimonial-item img-border-radius bg-light rounded p-4">
+                        <div class="position-relative">
+                            <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
+                            <div class="mb-4 pb-4 border-bottom border-secondary">
+                                <p class="mb-0"><?php echo $comment->comment_content; ?>
+                                </p>
+                            </div>
+                            <div class="d-flex align-items-center flex-nowrap">
+                                <div class="bg-secondary rounded">
+                                    <img src="img/testimonial-1.jpg" class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
+                                </div>
+                                <div class="ms-4 d-block">
+                                    <h4 class="text-dark"><?php echo $comment->comment_author; ?></h4>
+                                    <p class="m-0 pb-3"><?php echo 'Muri bikri kori'; ?></p>
+                                    <div class="d-flex pe-5">
+                                        <?php
+                                        $avg = get_comment_meta($comment->comment_ID,'rating',true);
+                                        for ($i = 0; $i < 5; $i++) {
+                                            if ($i < $avg) {
+                                                echo '<i class="fa fa-star text-secondary"></i>';
+                                            }else if($avg == 0){
+                                                echo '<i class="fa fa-star"></i>';
+                                            } 
+                                            else{
+                                                echo '<i class="fa fa-star"></i>';
+                                            }
+                                            
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
-            <?php    
-                endwhile;
-                wp_reset_postdata();
-            ?>
         </div>
-    </div>
-</div>
-<!-- Testimonial End -->
+        <!-- Tastimonial End -->
 
 <?php get_footer(); ?>
