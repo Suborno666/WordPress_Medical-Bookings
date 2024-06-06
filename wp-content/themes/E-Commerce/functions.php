@@ -172,6 +172,35 @@ add_action('wp_ajax_nopriv_update_user','e_commerce_user_update');
 add_action('wp_ajax_update_user','e_commerce_user_update');
 
 /**
+ * Send Email
+ */
+
+ function e_commerce_sending_email(){
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        $email = $_POST['email'];
+        $price = $_POST['price'];
+        $to = $email; 
+        $subject = 'Order Bill';
+        $body = 'Your order: '.$price;
+        $headers[] = 'Content-type: text/plain; charset=utf-8';
+    $headers[] = 'From:' . "testing@gmail.com";
+        if(wp_mail( $to, $subject, $body, $headers )){
+            echo json_encode(['data'=>'You will soon receive your receipt']);
+        }else{
+            echo json_encode(['alert'=>'Server Error']);
+        }
+    }
+    die();
+
+}
+add_action('wp_ajax_nopriv_send_email','e_commerce_sending_email');
+add_action('wp_ajax_send_email','e_commerce_sending_email');
+
+link: https://seoneurons.com/wordpress/configure-wordpress-smtp/;
+
+
+/**
 * Register Metabox
 */
 function prefix_add_meta_box(){
@@ -480,11 +509,60 @@ function enable_comments_for_new_posts($data, $postarr) {
 }
 add_filter('wp_insert_post_data', 'enable_comments_for_new_posts', 10, 2);
 
+
+
 // Set default comment status to 'open'
 function set_default_comment_status() {
     return 'open';
 }
 add_filter('default_comment_status', 'set_default_comment_status');
 
-// add_action('after_setup_theme','switch_on_comments_automatically') 
+
+/**
+ * Set Term Names 
+ * */
+function set_term_names(){
+    $terms = get_the_terms(get_the_id(),'product category');
+    if($terms && !is_wp_error($terms)){
+        $term_names = [];
+        foreach($terms as $term){
+            $term_names[] = $term->name;
+        }
+        $GLOBALS['term_names'] = implode(', ',$term_names);
+    }else{
+        $GLOBALS['term_names'] = 'Uncategorized';
+    }
+}
+add_action('wp','set_term_names');
+
+
+
+/**
+ * Star average 
+ * */
+function e_commerce_star_average(){
+    $comments = get_comments(array(
+        'post_id' => get_the_ID(),
+        'status' => 'approve',
+        'parent' => 0  // This ensures only top-level comments are fetched
+    ));
+    $comment_count = count($comments);
+    $sum = 0;
+    foreach($comments as $comment){
+        $rating = get_comment_meta($comment->comment_ID,'rating',true);
+        $sum=$rating+$sum;
+    }
+    // echo $sum;
+    if ($comment_count == 0){
+        $avg = 0;
+    }else{
+        $average = $sum/$comment_count;
+        $avg = round($average);
+    }  
+    $GLOBALS['avg'] = $avg;     
+    update_post_meta(get_the_ID(),'post_rating',$avg);
+}
+add_action('wp','e_commerce_star_average');
+
+
 ?>

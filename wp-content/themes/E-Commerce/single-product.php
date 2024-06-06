@@ -1,5 +1,6 @@
 <?php
 get_header();
+// echo isset($GLOBALS['term_names']) ? $GLOBALS['term_names'] : 'Uncategorized';
 ?>
 
 <!-- Modal Search Start -->
@@ -34,25 +35,7 @@ get_header();
         <!-- Single Page Header End -->
         <?php 
             // Fetch top-level comments for the current post
-            $comments = get_comments(array(
-                'post_id' => get_the_ID(),
-                'status' => 'approve',
-                'parent' => 0  // This ensures only top-level comments are fetched
-            ));
-            $comment_count = count($comments);
-            $sum = 0;
-            foreach($comments as $comment){
-                $rating = get_comment_meta($comment->comment_ID,'rating',true);
-                $sum=$rating+$sum;
-            }
-            // echo $sum;
-            if ($comment_count == 0){
-                $avg = 0;
-            }else{
-                $average = $sum/$comment_count;
-                $avg = round($average);
-            }
-            update_post_meta(get_the_ID(),'post_rating',$avg);            
+            echo '<p>'.$GLOBALS['avg'].'</p>';
         ?>
 
 
@@ -83,19 +66,10 @@ get_header();
                                 </h4>
                                 <p class="mb-3">Category: 
                                     <?php 
-                                        $terms = get_the_terms(get_the_ID(), 'product category');
-                                        if ($terms && !is_wp_error($terms)) {
-                                            $term_names = array();
-                                            foreach ($terms as $term) {
-                                                $term_names[] = $term->name;
-                                            }
-                                            echo "<b>".implode(', ', $term_names)."</b>";
-                                        } else {
-                                            echo 'Uncategorized';
-                                        }
+                                       echo isset($GLOBALS['term_names']) ? $GLOBALS['term_names'] : 'Uncategorized';
                                     ?>
                                 </p>
-                                <h5 class="fw-bold mb-3"><?php echo get_post_meta(get_the_ID(),'unique_mb_price_id',true).'/ kg'?></h5>
+                                <h5 class="fw-bold mb-3"><?php echo 'Rs '.get_post_meta(get_the_ID(),'unique_mb_price_id',true).'/ kg'?></h5>
                                 <div class="d-flex mb-4">
                                     <?php
                                     for ($i = 0; $i < 5; $i++) {
@@ -107,7 +81,6 @@ get_header();
                                         else{
                                             echo '<i class="fa fa-star"></i>';
                                         }
-                                        
                                     }
                                     ?>
                                 </div>
@@ -131,6 +104,12 @@ get_header();
                                     </div>
                                 </div>
                                 <a href="#" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+
+                                <!-- Button trigger modal -->
+                                <button data-bs-toggle="modal" data-bs-target="#exampleModal" style="border: 1px solid transparent !important;">
+                                <a href="#" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-solid fa-file-export"></i> Submit Enquiry</a>
+                                </button>
+                                
                             </div>
                             <div class="col-lg-12">
                                 <nav>
@@ -442,7 +421,8 @@ get_header();
                 <div class="vesitable">
                 <div class="owl-carousel vegetable-carousel justify-content-center">
                     <?php
-                        $args = array(  
+                        $term = isset($GLOBALS['term_names']) ? $GLOBALS['term_names'] : 'Uncategorized';
+                        $args = [
                             'post_type' => ['product'],
                             'post_status' => 'publish',
                             'posts_per_page' => -1, 
@@ -450,8 +430,15 @@ get_header();
                                 'date' =>'DESC',
                                 'menu_order'=>'ASC',
                             ],
-                            'order' => 'ASC', 
-                        );
+                            'order' => 'ASC',
+                            'tax_query' =>[ 
+                                [
+                                    'taxonomy' => 'product category',
+                                    'field'    => 'slug',
+                                    'terms'    => $term,
+                                ],
+                            ], 
+                        ];
                         $loop = new WP_Query($args);
                         while($loop->have_posts()):$loop->the_post();
                     ?>
@@ -478,7 +465,8 @@ get_header();
                             <p><?php the_content(); ?></p>
                             <div class="d-flex justify-content-between flex-lg-wrap">
                                 <p class="text-dark fs-5 fw-bold mb-0"><?php echo get_post_meta(get_the_ID(),'unique_mb_price_id',true).'/kg'?></p>
-                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                <a class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                
                             </div>
                         </div>
                     </div>
@@ -491,6 +479,119 @@ get_header();
             </div>
         </div>
         <!-- Single Product End -->
+
+
+
+        
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                <?php
+                if(!is_user_logged_in()){
+                    $current_user = wp_get_current_user();
+                }
+                if(have_posts()){
+                    the_post();
+                    ?>
+                    <form id="form" method="post" class="mx-auto p-2 grid gap-3 row gy-1" style="width: 450px;margin-top: 54px;">
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Name</label>
+                            <input type="text" name="name" class="form-control" id="formGroupExampleInput" placeholder="Name" value="<?php echo $current_user->display_name;?>">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput1">Email</label>
+                            <input type="email" name="email" class="form-control" id="formGroupExampleInput1" placeholder="Email" value="<?php echo $current_user->user_email;?>">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput1">Your Product</label>
+                            <input type="text" name="product" class="form-control" id="formGroupExampleInput1" placeholder="Product" value="<?php the_title();?>">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Quantity</label>
+                            <input type="text" name="quantity" class="form-control" id="formGroupExampleInput2" placeholder="Quantity" value="1">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput3">Price</label>
+                            <input type="text" name="price" class="form-control" id="formGroupExampleInput3" placeholder="Price" value="<?php echo get_post_meta(get_the_ID(),'unique_mb_price_id',true); ?>">
+                        </div>
+                        
+                        <p id="response"></p>
+                        
+                        </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" id="submit" name="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </form>
+                <?php 
+                } 
+                ?>
+
+
+            </div>
+        </div>
+
+        <script>
+            let quantity; 
+            let originalPrice;  
+
+            $(document).ready((e) => {
+                originalPrice = $('#formGroupExampleInput3').val();
+
+                function updateValue() {
+                    quantity = parseFloat($(this).find('input[type="text"]').val());
+                    $('#formGroupExampleInput2').val(quantity);
+
+                    let totalQuantity = quantity * originalPrice;
+                    console.log(totalQuantity);
+
+                    $('#formGroupExampleInput3').val(totalQuantity);
+                }
+
+                $('.input-group.quantity.mb-5').on('click', updateValue);
+
+                $('.increase-button').on('click', updateValue);
+                $('.decrease-button').on('click', updateValue);
+
+
+                $("#form").on('submit',(e)=>{
+                    e.preventDefault();
+                    var formData = new FormData($('#form')[0]);
+                    formData.append("action", "send_email");
+                    for( var [key,value] of formData.entries()){
+                        console.log(key,"=>",value)
+                    }
+                    $.ajax({
+                        type:"POST",
+                        url: ajaxurl,
+                        data: formData,
+                        dataType: 'json',
+                        processData: false,
+                        contentType: false,
+                        success:(res)=>{
+                            $("#response").html(res.data);
+                            $("#response").css('color','green');
+                            $("#response").html(res.alert);
+                            $("#response").css('color','red');
+                        }
+                    })
+                })
+            })
+
+        </script>
 
         <?php
 

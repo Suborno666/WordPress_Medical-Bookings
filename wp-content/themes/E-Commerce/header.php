@@ -55,10 +55,6 @@ global $current_user;
                         ?>
                         </small>/</a>
                         <a href="#" class="text-white"><small class="text-white mx-2">
-                            <?php
-
-
-                            ?>
                         </small>/</a>
                         <a href="#" class="text-white"><small class="text-white ms-2">Sales and Refunds</small></a>
                     </div>
@@ -78,10 +74,9 @@ global $current_user;
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                    <a href="cart.html" class="dropdown-item">Cart</a>
-                                    <a href="chackout.html" class="dropdown-item">Chackout</a>
+                                    <a href="<?php echo get_the_permalink(210)?>" class="dropdown-item">Cart</a>
+                                    <a href="<?php echo get_the_permalink(207)?>" class="dropdown-item">Checkout</a>
                                     <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                    <a href="404.html" class="dropdown-item">404 Page</a>
                                 </div>
                             </div>
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
