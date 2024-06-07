@@ -33,10 +33,6 @@ get_header();
             </ol>
         </div>
         <!-- Single Page Header End -->
-        <?php 
-            // Fetch top-level comments for the current post
-            echo '<p>'.$GLOBALS['avg'].'</p>';
-        ?>
 
 
         <!-- Single Product Start -->
@@ -582,10 +578,13 @@ get_header();
                         processData: false,
                         contentType: false,
                         success:(res)=>{
-                            $("#response").html(res.data);
-                            $("#response").css('color','green');
-                            $("#response").html(res.alert);
-                            $("#response").css('color','red');
+                            if(res.data){
+                                $("#response").html(res.data);
+                                $("#response").css('color','green'); 
+                            }else if(res.alert){ 
+                                $("#response").html(res.alert);
+                                $("#response").css('color','red');
+                            }    
                         }
                     })
                 })

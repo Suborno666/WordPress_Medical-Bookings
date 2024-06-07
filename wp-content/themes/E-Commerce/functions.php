@@ -171,35 +171,41 @@ function e_commerce_user_update(){
 add_action('wp_ajax_nopriv_update_user','e_commerce_user_update');
 add_action('wp_ajax_update_user','e_commerce_user_update');
 
-/**
- * Send Email
- */
-
- function e_commerce_sending_email(){
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-        $email = $_POST['email'];
-        $price = $_POST['price'];
-        $to = $email; 
-        $subject = 'Order Bill';
-        $body = 'Your order: '.$price;
-        $headers[] = 'Content-type: text/plain; charset=utf-8';
-    $headers[] = 'From:' . "testing@gmail.com";
-        if(wp_mail( $to, $subject, $body, $headers )){
-            echo json_encode(['data'=>'You will soon receive your receipt']);
-        }else{
-            echo json_encode(['alert'=>'Server Error']);
-        }
-    }
-    die();
-
-}
-add_action('wp_ajax_nopriv_send_email','e_commerce_sending_email');
-add_action('wp_ajax_send_email','e_commerce_sending_email');
-
 link: https://seoneurons.com/wordpress/configure-wordpress-smtp/;
 
+function my_phpmailer_smtp() {
 
+    echo 'Im in';
+    $headers[] = 'Content-type: text/html; charset=iso-8859-1';
+    $headers[] = "from ".'subornodas666@gmail.com';
+    $body = 'The price is: '.$_POST['price'];
+    $sent = wp_mail('subornodas251@gmail.com', 'Testing' ,$body ,implode("\r\n", $headers));
+    if($sent){
+        echo '\r \n mail Sent';
+    }
+    die();
+  
+}
+add_action('wp_ajax_send_email', 'my_phpmailer_smtp');
+add_action('wp_ajax_nopriv_send_email', 'my_phpmailer_smtp');
+
+
+// add_action( 'phpmailer_init', 'phpmailer_smtp' );
+// function phpmailer_smtp( $phpmailer ) {
+//     $phpmailer->isSMTP();     
+//     $phpmailer->Host = 'smtp.gmail.com';  
+//     $phpmailer->SMTPAuth = true;
+//     $phpmailer->Port = 465;
+//     $phpmailer->Username = 'subornodas666@gmail.com';
+//     $phpmailer->Password ='knofyccfsfudalel';
+//     $phpmailer->SMTPSecure = 'ssl';
+//     $phpmailer->From = 'subornodas666@gmail.com';
+//     $phpmailer->FromName = 'abcd';
+
+//     if(!print_r($phpmailer)){
+//         echo 'Empty';
+//     }
+// }
 /**
 * Register Metabox
 */
