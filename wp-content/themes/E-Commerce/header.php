@@ -1,4 +1,7 @@
 <?php
+/**
+ * TEMPLATE NAME: Header
+ */
 
 global $current_user;
 

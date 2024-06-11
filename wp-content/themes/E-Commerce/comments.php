@@ -1,3 +1,10 @@
+<?php
+/**
+ * TEMPLATE NAME: Commenyts
+ */
+
+?>
+
 <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
     <?php
     function my_custom_comments_callback($comment, $args, $depth) {
