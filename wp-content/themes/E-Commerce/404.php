@@ -1,4 +1,7 @@
 <?php
+/**
+ * TEMPLATE NAME: 404
+ */
 get_header();
 ?>
 

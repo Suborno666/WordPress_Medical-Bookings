@@ -1,6 +1,8 @@
 <?php
 
-
+/**
+ * TEMPLATE NAME: Functions
+ */
 function e_commerce_theme_support(){
     
     // Add Title Tag
@@ -75,49 +77,6 @@ function e_commerce_user_create(){
 add_action('wp_ajax_nopriv_register_user', 'e_commerce_user_create');
 add_action('wp_ajax_register_user', 'e_commerce_user_create');
 
-//***************************************** Register User's Comments *****************************************
-// function e_commerce_user_comment() {
-//     if ($_SERVER["REQUEST_METHOD"] == "POST" && is_user_logged_in()) {
-//         $comment_content = isset($_POST['textarea']) ? sanitize_text_field($_POST['textarea']) : '';
-//         $rating = isset($_POST['rating']) ? floatval($_POST['rating']) : 0;
-        
-//         $user_id = get_current_user_id();
-
-//         if (empty($comment_content) || empty($rating)) {
-//             echo json_encode(['data' => 'Please provide both comment and rating.', 'success' => false]);
-//             die();
-//         }
-
-//         // Create the comment
-//         $commentdata = array(
-//             'comment_post_ID' => get_the_ID(),
-//             'comment_author' => wp_get_current_user()->display_name,
-//             'comment_author_email' => wp_get_current_user()->user_email,
-//             'comment_content' => $comment_content,
-//             'user_id' => $user_id,
-//             'comment_approved' => 1,
-//         );
-
-//         $comment_id = wp_new_comment($commentdata);
-
-//         if ($comment_id) {
-//             // Save rating as comment meta
-//             add_comment_meta($comment_id, 'rating', $rating, true);
-//             echo json_encode(['data' => 'Comment and rating submitted successfully.', 'success' => true]);
-//         } else {
-//             echo json_encode(['data' => 'Error submitting comment.', 'success' => false]);
-//         }
-//     } else {
-//         echo json_encode(['data' => 'You must be logged in to submit a comment.', 'success' => false]);
-//     }
-//     die();
-// }
-
-// add_action('wp_ajax_nopriv_user_comments', 'e_commerce_user_comment');
-// add_action('wp_ajax_user_comments', 'e_commerce_user_comment');
-
-
-
 //***************************************** Login *****************************************
 function e_commerce_user_login(){ 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -189,26 +148,6 @@ function my_phpmailer_smtp() {
 add_action('wp_ajax_send_email', 'my_phpmailer_smtp');
 add_action('wp_ajax_nopriv_send_email', 'my_phpmailer_smtp');
 
-
-// add_action( 'phpmailer_init', 'phpmailer_smtp' );
-// function phpmailer_smtp( $phpmailer ) {
-//     $phpmailer->isSMTP();     
-//     $phpmailer->Host = 'smtp.gmail.com';  
-//     $phpmailer->SMTPAuth = true;
-//     $phpmailer->Port = 465;
-//     $phpmailer->Username = 'subornodas666@gmail.com';
-//     $phpmailer->Password ='knofyccfsfudalel';
-//     $phpmailer->SMTPSecure = 'ssl';
-//     $phpmailer->From = 'subornodas666@gmail.com';
-//     $phpmailer->FromName = 'abcd';
-
-//     if(!print_r($phpmailer)){
-//         echo 'Empty';
-//     }
-// }
-/**
-* Register Metabox
-*/
 function prefix_add_meta_box(){
     $post_types = 'product';
 	add_meta_box( 'unique_mb_price_id', __( 'Metabox Title','text-domain' ),'prefix_mb_callback', $post_types );
@@ -267,23 +206,6 @@ function prefix_save_meta_data( $post_id ){
     
 }
 add_action( 'save_post', 'prefix_save_meta_data' );
-
-// In your theme's functions.php or any other theme file
-
-// Define the custom action hook
-function my_custom_action_hook() {
-    do_action('my_custom_action');
-}
-
-// In your theme's functions.php
-
-// Function to be executed when the custom action is triggered
-function my_custom_action_function() {
-    echo "My custom action has been triggered!";
-}
-
-// Hook the custom function to the custom action
-add_action('my_custom_action', 'my_custom_action_function');
 
 /**
  * Add Image Meta field
@@ -497,6 +419,4 @@ function e_commerce_star_average(){
     update_post_meta(get_the_ID(),'post_rating',$avg);
 }
 add_action('wp','e_commerce_star_average');
-
-
 ?>

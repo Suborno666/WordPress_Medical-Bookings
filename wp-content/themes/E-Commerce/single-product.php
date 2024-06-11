@@ -1,5 +1,6 @@
 <?php
 get_header();
+// Template Name: Login
 // echo isset($GLOBALS['term_names']) ? $GLOBALS['term_names'] : 'Uncategorized';
 ?>
 
