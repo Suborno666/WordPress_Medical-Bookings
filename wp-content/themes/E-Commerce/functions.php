@@ -1,8 +1,6 @@
 <?php
 
-/**
- * TEMPLATE NAME: Functions
- */
+
 function e_commerce_theme_support(){
     
     // Add Title Tag
@@ -132,15 +130,42 @@ add_action('wp_ajax_update_user','e_commerce_user_update');
 
 link: https://seoneurons.com/wordpress/configure-wordpress-smtp/;
 
+add_action( 'phpmailer_init', 'phpmailer_smtp' );
+function phpmailer_smtp( $phpmailer ) {
+    $phpmailer->isSMTP();     
+    $phpmailer->Host = SMTP_server;  
+    $phpmailer->SMTPAuth = SMTP_AUTH;
+    $phpmailer->Port = SMTP_PORT;
+    $phpmailer->Username = SMTP_username;
+    $phpmailer->Password = SMTP_password;
+    $phpmailer->SMTPSecure = SMTP_SECURE;
+    $phpmailer->From = SMTP_FROM;
+    $phpmailer->FromName = SMTP_NAME;
+}
+
 function my_phpmailer_smtp() {
 
-    echo 'Im in';
-    $headers[] = 'Content-type: text/html; charset=iso-8859-1';
-    $headers[] = "from ".'subornodas666@gmail.com';
-    $body = 'The price is: '.$_POST['price'];
-    $sent = wp_mail('subornodas251@gmail.com', 'Testing' ,$body ,implode("\r\n", $headers));
+    // Process the form data
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $productName = $_POST['product'];
+    $quantity = $_POST['quantity'];
+
+    // Compose email message
+    $to = 'subornodas666@gmail.com'; 
+    $subject = 'New Product Enquiry';
+    $message = "Customer Name: $name\n";
+    $message .= "Email: $email\n";
+    $message .= "Product Name: $productName\n";
+    $message .= "Quantity: $quantity kg\n";
+
+
+    $headers = 'From: ' . $email . "\r\n" .
+    'Reply-To: ' . $email . "\r\n" .
+    'X-Mailer: PHP/' . phpversion();
+    $sent = wp_mail($to, $subject, $message, $headers);
     if($sent){
-        echo '\r \n mail Sent';
+        echo 'Mail Sent!';
     }
     die();
   
@@ -206,6 +231,23 @@ function prefix_save_meta_data( $post_id ){
     
 }
 add_action( 'save_post', 'prefix_save_meta_data' );
+
+// In your theme's functions.php or any other theme file
+
+// Define the custom action hook
+function my_custom_action_hook() {
+    do_action('my_custom_action');
+}
+
+// In your theme's functions.php
+
+// Function to be executed when the custom action is triggered
+function my_custom_action_function() {
+    echo "My custom action has been triggered!";
+}
+
+// Hook the custom function to the custom action
+add_action('my_custom_action', 'my_custom_action_function');
 
 /**
  * Add Image Meta field
@@ -419,4 +461,6 @@ function e_commerce_star_average(){
     update_post_meta(get_the_ID(),'post_rating',$avg);
 }
 add_action('wp','e_commerce_star_average');
+
+
 ?>
