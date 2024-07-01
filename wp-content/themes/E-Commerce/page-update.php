@@ -1,5 +1,5 @@
 <?php 
-// Template Name: Register
+// Template Name: Update
 get_header();
 ?>
 

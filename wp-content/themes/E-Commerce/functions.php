@@ -104,6 +104,7 @@ add_action( 'wp_ajax_custom_login', 'e_commerce_user_login' );
 
 //***************************************** Update *****************************************
 function e_commerce_user_update(){
+    
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $user_login     = esc_attr($_POST["email"]);
